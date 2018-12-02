@@ -3,6 +3,7 @@ from pymodm import MongoModel, fields
 
 connect("mongodb://bme590:hello12345@ds123664.mlab.com:23664/concussion")
 
+
 # use list field
 class Player(MongoModel):
     player_id = fields.IntegerField(primary_key=True)

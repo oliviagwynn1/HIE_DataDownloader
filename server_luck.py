@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 # features to add:
 # required keys
-# check if new player
+# make multiple requests for more than 1 player
 
 logging.basicConfig(filename="luck_logging.txt",
                     format='%(asctime)s %(message)s',
@@ -16,46 +16,28 @@ logging.basicConfig(filename="luck_logging.txt",
                     level=logging.DEBUG)
 
 
-# create new player
-@app.route("/luck/add_player", methods=["POST"])
-def new_player():
-    connect("mongodb://nkm12:hello12345@ds123664.mlab.com:23664/concussion")
-    a = request.get_json()
-
-    player = Player(player_id=a["player_id"])
-
-    player.save()
-
-    logging.info("New player added %s", a["player_id"])
-
-    result = {"message": "Added new player"}
-
-    return jsonify(result)
-
-
 @app.route("/luck/add_data", methods=["POST"])
 def add_data():
     connect("mongodb://nkm12:hello12345@ds123664.mlab.com:23664/concussion")
     a = request.get_json()
 
-    # check if patient exists
+    try:
+        p = Player.objects.raw({"_id": a["player_id"]}).first()
+        player_id = Player.objects.raw({"_id": a["player_id"]})
+        player_id.update({"$push": {"session_data": a["session_data"]}})
+        result = {"message": "Successfully added data to existing player"}
+        logging.info("New data added for existing player %s", a["player_id"])
+    # if player does not exist, add them then add data
+    except Player.DoesNotExist:
+        player = Player(player_id=a["player_id"])
+        player.save()
+        # once add player, add data
+        player_id = Player.objects.raw({"_id": a["player_id"]})
+        player_id.update({"$push": {"session_data": a["session_data"]}})
+        result = {"message": "Successfully added data to new player"}
+        logging.info("Data added for new player %s", a["player_id"])
 
-    # add if new
-
-    player_id = Player.objects.raw({"_id": a["player_id"]})
-    # need to structure correctly
-    player_id.update({"$push": {"data": a["data"]}})
-
-    # add time when data when added
     now = datetime.datetime.now()
     player_id.update({"$push": {"time_stamp": now}})
 
-    logging.info("New data added for player %s", a["player_id"])
-
-    result = {"message": "Successfully added session data to DB"}
-
     return jsonify(result)
-    # add data if already exists
-
-# if __name__ == "__main__":
-#    app.run(host="0.0.0.0")

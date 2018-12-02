@@ -9,5 +9,4 @@ class Player(MongoModel):
     player_id = fields.IntegerField(primary_key=True)
     session_label = fields.ListField(field=fields.BigIntegerField())
     session_data = fields.ListField(field=fields.DateTimeField())
-    upload_time = fields.ListField(field=fields.DateTimeField())
-    # session_label and session_data line up by index
+    time_stamp = fields.ListField(field=fields.DateTimeField())

@@ -9,6 +9,7 @@ scikit-learn
 sphinx
 pudb
 pytest
+pyusb
 pytest-pep8
 pytest-cov
 pytest-pudb

@@ -49,8 +49,8 @@ def add_data():
 def check_data_added(player_id):
     connect("mongodb://nkm12:hello12345@ds123664.mlab.com:23664/concussion")
 
-    #eventually edit this to be able to check if the data
-    #has been stored in the data base
+    # eventually edit this to be able to check if the data
+    # has been stored in the data base
     a = int(player_id)
     try:
         p = Player.objects.raw({"_id": a}).first()
@@ -61,6 +61,7 @@ def check_data_added(player_id):
     aa = p.session_data
 
     return jsonify(aa)
+
 
 # Try multiprocessing posting data
 # @app.route("/luck/add_data_multi", methods=["POST"])

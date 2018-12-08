@@ -18,7 +18,7 @@ logging.basicConfig(filename="luck_logging.txt",
                     level=logging.DEBUG)
 
 
-@app.route("/luck/add_data", methods=["POST"])
+@app.route("/api/luck/add_data", methods=["POST"])
 def add_data():
     connect("mongodb://nkm12:hello12345@ds123664.mlab.com:23664/concussion")
     a = request.get_json()
@@ -45,7 +45,7 @@ def add_data():
     return jsonify(result)
 
 
-@app.route("/luck/check_updated/<player_id>", methods=["GET"])
+@app.route("/api/luck/check_updated/<player_id>", methods=["GET"])
 def check_data_added(player_id):
     connect("mongodb://nkm12:hello12345@ds123664.mlab.com:23664/concussion")
 

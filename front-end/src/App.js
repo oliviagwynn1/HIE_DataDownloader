@@ -1,26 +1,39 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Home from './home';
+import { MuiThemeProvider} from '@material-ui/core/styles';
+
+var styles = {
+    "backgroundStyle": {
+        "backgroundColor": "#222222",
+        "color": "white",
+        "padding": "20px",
+        "height": "20px",
+
+    },
+    "headerStyle": {
+        "marginBottom": "10px",
+        "backgroundColor": "#222222",
+        "height": "150px",
+        "padding": "20px",
+        "color": "white",
+        "flexDirection": "column",
+        "alignItems": "center",
+        "justifyContent": "flex-start",
+    },
+};
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <MuiThemeProvider>
+            <div style={styles.backgroundStyle}>
+                <div style={styles.headerStyle}>
+                Welcome to the client application for the DASHR
+                </div>
+                <Home/>
+            </div>
+        </MuiThemeProvider>
     );
   }
 }

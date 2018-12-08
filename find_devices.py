@@ -17,7 +17,7 @@ def find_devices():
 
 
 def get_info():
-    dev = usb.core.find(idVendor=0x05dc, idProduct=0xa81d)  # fill in your own device, of course
+    dev = usb.core.find(idVendor=0x0425, idProduct=0x03fc)
     if dev is None:
         print('Our device is not connected')
     else:
@@ -33,15 +33,15 @@ def get_info():
 def find_num_files(dir):
     num_files = 0
     for dirpath, dirnames, filenames in os.walk(dir):
-        for filename in [f for f in filenames if f.endswith(".txt")]:
-            print(os.path.join(dirpath, filename))
+        for filename in [f for f in filenames if f.endswith(".BIN")]:
+            # print(os.path.join(dirpath, filename))
             num_files += 1
     print(num_files)
     return
 
 
 if __name__ == "__main__":
-    find_devices()
+    # find_devices()
     get_info()
-    dir = '/Volumes/Lexar'
+    dir = '/Volumes/MV1'
     find_num_files(dir)

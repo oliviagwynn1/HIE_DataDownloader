@@ -3,12 +3,17 @@ import os
 app = Flask(__name__)
 
 
-@app.route("/api/send_env_file", methods=["GET"])
+@app.route("/api/send_enc_file", methods=["GET"])
 def send_enc_file():
     file = '/Test_BIN/L0.BIN'
     enc = file.encode()
 
-    return jsonify(enc)
+    test_send = {
+        'Hash': 1,
+        'File': 2,
+    }
+
+    return jsonify(test_send)
 
 
 if __name__ == "__main__":

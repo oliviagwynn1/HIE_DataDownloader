@@ -8,6 +8,8 @@ scikit-image
 scikit-learn
 sphinx
 pudb
+Flask
+requests
 pytest
 pyusb
 pytest-pep8

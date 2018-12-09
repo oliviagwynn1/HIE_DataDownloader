@@ -1,15 +1,25 @@
 from flask import Flask, jsonify, request
-import os
+from base64 import b64encode
+import hashlib
 app = Flask(__name__)
 
 
 @app.route("/api/send_enc_file", methods=["GET"])
 def send_enc_file():
-    file = '/Test_BIN/L0.BIN'
-    enc = file.encode()
+    file = '/Users/clarkbulleit/Desktop/Class Folders/' \
+           'Medical Software/Projects/bme590final/Test_BIN/L1.BIN'
+
+    hasher = hashlib.md5()
+    with open(file, 'rb') as afile:
+        dat = afile.read()
+        hasher.update(dat)
+
+    hash = hasher.digest()
+    hash_bytes = b64encode(hash)
+    hash_str = hash_bytes.decode('utf-8')
 
     test_send = {
-        'Hash': 1,
+        'Hash': hash_str,
         'File': 2,
     }
 

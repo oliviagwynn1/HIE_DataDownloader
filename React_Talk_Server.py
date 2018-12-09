@@ -24,13 +24,13 @@ def send_enc_file():
     dat_bytes = b64encode(dat)
     dat_str = dat_bytes.decode('utf-8')
 
-    #
-    test_send = {
+    # Put each data file into its own dictionary
+    file_dict = {
         'Hash': hash_str,
         'File': dat_str,
     }
 
-    return jsonify(test_send)
+    return jsonify(file_dict)
 
 
 if __name__ == "__main__":

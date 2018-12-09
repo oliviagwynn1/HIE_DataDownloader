@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import ErrorMessage from './error';
+import ChangeView from './actions';
 
 
 
@@ -25,8 +26,11 @@ class Home extends Component {
                 this.setState({'errorMessageOpen': true})
             }
             else {
+                this.ChangeView()
                 console.log([data.data.player_id])
                 console.log(data)
+                console.log(this.state.devices)
+                console.log(this.state.home)
 
 
             }

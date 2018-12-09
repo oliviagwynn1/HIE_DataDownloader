@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
-from base64 import b64encode
 import hashlib
 from get_file_names import get_file_names
+from encode_for_json import encode_for_json
 app = Flask(__name__)
 
 
@@ -14,20 +14,16 @@ def send_enc_file():
 
     # read file and calculate hash
     hasher = hashlib.md5()
-    with open(file, 'rb') as afile:
+    with open(dir + '/' + filenames[1], 'rb') as afile:
         dat = afile.read()
         hasher.update(dat)
-
-    # Encode hash for json serializing
     hash = hasher.digest()
-    hash_bytes = b64encode(hash)
-    hash_str = hash_bytes.decode('utf-8')
 
-    # Encode file for json serializing
-    dat_bytes = b64encode(dat)
-    dat_str = dat_bytes.decode('utf-8')
+    # Encode hash and file for json serializing
+    hash_str = encode_for_json(hash)
+    dat_str = encode_for_json(dat)
 
-    # Put each data file into its own dictionary
+
     file_dict = {
         'Hash': hash_str,
         'File': dat_str,

@@ -7,4 +7,12 @@ def get_file_names(dir):
         for filename in [f for f in filenames if f.endswith(".BIN")]:
             filenames.append(filename)
 
-    return filenames
+    times = []
+    for name in filenames:
+        times.append(os.path.getmtime(dir + '/' + name))
+
+    file_info = {
+        'filenames': filenames,
+        'mod_times': times,
+    }
+    return file_info

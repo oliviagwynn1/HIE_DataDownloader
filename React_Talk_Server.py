@@ -14,7 +14,7 @@ def send_enc_file():
 
     # read file and calculate hash
     hasher = hashlib.md5()
-    with open(dir + '/' + filenames[1], 'rb') as afile:
+    with open(dir + '/' + filenames[2], 'rb') as afile:
         dat = afile.read()
         hasher.update(dat)
     hash = hasher.digest()
@@ -25,8 +25,8 @@ def send_enc_file():
 
 
     file_dict = {
-        'Hash': hash_str,
-        'File': dat_str,
+        filenames[1]: hash_str,
+        'XFile': dat_str,
     }
 
     return jsonify(file_dict)

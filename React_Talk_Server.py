@@ -25,7 +25,7 @@ def send_enc_file():
 
     # read files, encode, and put in dictionary
     for name in filenames:
-        with open(dir + '/' + name, 'rb') as afile:
+        with open(name, 'rb') as afile:
             dat = afile.read()
 
         # Encode hash and file for json serializing

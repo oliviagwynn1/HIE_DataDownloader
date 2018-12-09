@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import hashlib
 import os
+from checksumdir import dirhash
 from get_file_names import get_file_names
 from encode_for_json import encode_for_json
 app = Flask(__name__)
@@ -11,19 +12,23 @@ def send_enc_file():
     dir = '/Users/clarkbulleit/Desktop/Class Folders/' \
            'Medical Software/Projects/bme590final/Test_BIN'
 
+    # Calculate checksum of directory
+    md5hash = dirhash(dir, 'md5')
+
+    # Harvest Filenames from directory
     filenames = get_file_names(dir)
-    output_dictionary = {}
+
+    # Setup output dictionary, include checksum
+    output_dictionary = {
+        'checksum': md5hash,
+    }
 
     # read file and calculate hash
     for name in filenames:
-        hasher = hashlib.md5()
         with open(dir + '/' + name, 'rb') as afile:
             dat = afile.read()
-            hasher.update(dat)
-        hash = hasher.digest()
 
         # Encode hash and file for json serializing
-        hash_str = encode_for_json(hash)
         dat_str = encode_for_json(dat)
 
         file_dict = {

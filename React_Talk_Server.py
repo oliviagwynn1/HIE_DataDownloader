@@ -32,7 +32,7 @@ def send_enc_file():
         dat_str = encode_for_json(dat)
 
         # Get modification and creation timestamp and convert to datetime
-        tm_stamp = os.path.getmtime(dir + '/' + name)
+        tm_stamp = os.path.getmtime(name)
         mod_time = datetime.fromtimestamp(tm_stamp).strftime('%Y-%m-%d %H:%M:%S')
 
         # create nested dictionary for each file and add to bit dict
@@ -40,7 +40,7 @@ def send_enc_file():
             'data': dat_str,
             'modification_time': mod_time,
         }
-        output_dictionary[name] = file_dict
+        output_dictionary[os.path.basename(filenames[0])] = file_dict
 
     return jsonify(output_dictionary)
 

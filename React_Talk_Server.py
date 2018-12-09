@@ -1,13 +1,16 @@
 from flask import Flask, jsonify, request
 from base64 import b64encode
 import hashlib
+from get_file_names import get_file_names
 app = Flask(__name__)
 
 
 @app.route("/api/send_enc_file", methods=["GET"])
 def send_enc_file():
-    file = '/Users/clarkbulleit/Desktop/Class Folders/' \
-           'Medical Software/Projects/bme590final/Test_BIN/L1.BIN'
+    dir = '/Users/clarkbulleit/Desktop/Class Folders/' \
+           'Medical Software/Projects/bme590final/Test_BIN'
+
+    filenames = get_file_names(dir)
 
     # read file and calculate hash
     hasher = hashlib.md5()

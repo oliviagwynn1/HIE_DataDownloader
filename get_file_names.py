@@ -3,8 +3,9 @@ import os
 
 def get_file_names(dir):
     filenames = []
-    for dirpath, dirnames, filenames in os.walk(dir):
-        for filename in [f for f in filenames if f.endswith(".BIN")]:
-            filenames.append(filename)
+    for root, dirs, files in os.walk(dir):
+        for file in files:
+            if file.endswith(".BIN"):
+                filenames.append(file)
 
     return filenames

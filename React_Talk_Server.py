@@ -12,8 +12,10 @@ CORS(app)
 
 @app.route("/api/send_enc_file", methods=["GET"])
 def send_enc_file():
-    dir = '/Users/clarkbulleit/Desktop/Class Folders/' \
-           'Medical Software/Projects/bme590final/Test_BIN'
+    # dir = '/Users/clarkbulleit/Desktop/Class Folders/' \
+    #        'Medical Software/Projects/bme590final/Test_BIN'
+
+    dir = '/Volumes/MV1 1'
 
     # Calculate checksum of directory
     # md5hash = dirhash(dir, 'md5')

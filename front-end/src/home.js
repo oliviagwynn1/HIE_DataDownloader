@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import { styles } from './styling'
 import ErrorMessage from './error';
 
 
@@ -38,11 +39,12 @@ class Home extends Component {
 
     render(){
         return (
-            <div className="home-button">
+            <div style={styles.viewStyle}>
                 <Button
+                    style={styles.connectButtonStyle}
                     variant="raised"
-                    color={"primary"}
                     onClick={this.connectDevices}
+                    label={"Connect to Devices"}
                     >
                     Connect to Devices
                 </Button>

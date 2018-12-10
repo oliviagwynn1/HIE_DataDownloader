@@ -12,10 +12,10 @@ CORS(app)
 
 @app.route("/api/send_enc_file", methods=["GET"])
 def send_enc_file():
-    # dir = '/Users/clarkbulleit/Desktop/Class Folders/' \
-    #        'Medical Software/Projects/bme590final/Test_BIN'
+    dir = '/Users/clarkbulleit/Desktop/Class Folders/' \
+           'Medical Software/Projects/bme590final/Test_BIN'
 
-    dir = '/Volumes/MV1'
+    # dir = '/Volumes/MV1'
 
     # Calculate checksum of directory
     md5hash = dirhash(dir, 'md5')
@@ -25,7 +25,9 @@ def send_enc_file():
 
     # Setup output dictionary, include checksum
     output_dictionary = {
+        'mac_address': 10,
         'checksum': md5hash,
+        'Sessions': {},
     }
 
     # output_dictionary = {}
@@ -51,7 +53,7 @@ def send_enc_file():
             'modification_time': mod_time,
             'hash': hash_str,
         }
-        output_dictionary[os.path.basename(name)] = file_dict
+        output_dictionary['Files'][os.path.basename(name)] = file_dict
 
     return jsonify(output_dictionary)
 

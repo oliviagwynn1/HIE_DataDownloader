@@ -25,7 +25,6 @@ if __name__ == "__main__":
             # Decode the data
             data_binary = b64decode(v['data'])
             # Write to local file
-            k.write(data_binary)
             # calculate hash of decoded data
             hasher.update(data_binary)
             # Digest Hash and save as JSON encoded form
@@ -34,7 +33,7 @@ if __name__ == "__main__":
             # Add newly calculated hash to newhash list
             newhashes.append(hash_str)
 
-    print(hashes)
+    print(type(hashes[0]))
     print(newhashes)
     print(hashes == newhashes)
 

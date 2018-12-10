@@ -5,7 +5,8 @@ from encode_for_json import encode_for_json
 
 
 if __name__ == "__main__":
-    r = requests.get('http://127.0.0.1:5002/api/send_enc_file')
+    # r = requests.get('http://127.0.0.1:5002/api/send_enc_file')
+    r = requests.get('http://vcm-7335.vm.duke.edu:5004/api/send_enc_file')
     data = r.json()
 
     # Sets up one list for the harvested hashes, another for the calculated ones
@@ -31,5 +32,7 @@ if __name__ == "__main__":
             # Add newly calculated hash to newhash list
             newhashes.append(hash_str)
 
+    print(hashes)
+    print(newhashes)
     print(hashes == newhashes)
 

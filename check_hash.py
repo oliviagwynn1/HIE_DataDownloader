@@ -5,7 +5,7 @@ from encode_for_json import encode_for_json
 
 
 if __name__ == "__main__":
-    # r = requests.get('http://127.0.0.1:5002/api/send_enc_file')
+    # r = requests.get('http://127.0.0.1:5005/api/send_enc_file')
     r = requests.get('http://vcm-7335.vm.duke.edu:5004/api/send_enc_file')
     data = r.json()
 
@@ -24,6 +24,8 @@ if __name__ == "__main__":
             hashes.append(v['hash'])
             # Decode the data
             data_binary = b64decode(v['data'])
+            # Write to local file
+            k.write(data_binary)
             # calculate hash of decoded data
             hasher.update(data_binary)
             # Digest Hash and save as JSON encoded form

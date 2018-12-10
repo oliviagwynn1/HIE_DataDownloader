@@ -1,20 +1,12 @@
-from flask import Flask, jsonify, request
 import os
 import hashlib
-from flask_cors import CORS
 from datetime import datetime
 from checksumdir import dirhash
 from get_file_names import get_file_names
 from encode_for_json import encode_for_json
-app = Flask(__name__)
-CORS(app)
 
 
-@app.route("/api/send_enc_file", methods=["GET"])
-def send_enc_file():
-    # dir = '/Users/clarkbulleit/Desktop/Class Folders/' \
-    #        'Medical Software/Projects/bme590final/Test_BIN'
-
+if __name__ == "__main__":
     dir = '/Volumes/MV1'
 
     # Calculate checksum of directory
@@ -52,13 +44,3 @@ def send_enc_file():
             'hash': hash_str,
         }
         output_dictionary[os.path.basename(name)] = file_dict
-
-    return jsonify(output_dictionary)
-
-
-if __name__ == "__main__":
-
-    # First option is for development
-    # Second option is for deployment
-    app.run(host="127.0.0.1", port=5005)
-    # app.run(host="0.0.0.0", port=5002)

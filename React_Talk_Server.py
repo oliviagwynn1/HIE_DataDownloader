@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 import os
+import hashlib
 from flask_cors import CORS
 from datetime import datetime
 from checksumdir import dirhash
@@ -15,23 +16,28 @@ def send_enc_file():
            'Medical Software/Projects/bme590final/Test_BIN'
 
     # Calculate checksum of directory
-    md5hash = dirhash(dir, 'md5')
+    # md5hash = dirhash(dir, 'md5')
 
     # Harvest Filenames from directory
     filenames = get_file_names(dir)
 
     # Setup output dictionary, include checksum
-    output_dictionary = {
-        'checksum': md5hash,
-    }
+    # output_dictionary = {
+    #     'checksum': md5hash,
+    # }
 
-    # read files, encode, and put in dictionary
+    output_dictionary = {}
+    # read files, encode, calculate hash, and put in dictionary
     for name in filenames:
+        hasher = hashlib.md5()
         with open(name, 'rb') as afile:
             dat = afile.read()
+            hasher.update(dat)
 
+        hash = hasher.digest()
         # Encode hash and file for json serializing
         dat_str = encode_for_json(dat)
+        hash_str = encode_for_json(hash)
 
         # Get modification and creation timestamp and convert to datetime
         tm_stamp = os.path.getmtime(name)
@@ -41,6 +47,7 @@ def send_enc_file():
         file_dict = {
             'data': dat_str,
             'modification_time': mod_time,
+            'hash': hash_str,
         }
         output_dictionary[os.path.basename(name)] = file_dict
 

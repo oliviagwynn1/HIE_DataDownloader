@@ -2,7 +2,10 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 export const theme = createMuiTheme({
   palette: {
-      type:'light',
+      primary: {
+      main: '#232F34',
+    },
+    secondary: {main: "#03DAC5"}
   },
   typography: {
     // Use the system font instead of the default Roboto font.
@@ -15,23 +18,23 @@ export const theme = createMuiTheme({
 
 export var styles = {
     "backgroundStyle":{
-        "backgroundColor": "#F1F1F1",
         "text-align": "center",
-        "height": "100vh"
+        "height": "100vh",
+        "backgroundColor":"#344955"
 
     },
     "headerStyle": {
-        "backgroundColor": "#282c34",
         "font-size": "2vh",
         "color": "white",
         "padding": "2.5vh",
+        "backgroundColor":"#232F34"
     },
     "paperStyle": {
         "height": "75vh",
         "width": "75vh",
         "marginTop": "5vh",
         "display": "inline-block",
-        "backgroundColor": "#f9f9f9",
+        "backgroundColor":"#344955",
 
     },
     "viewStyle": {
@@ -39,7 +42,9 @@ export var styles = {
         "font-size": "2vh",
     },
     "connectButtonStyle": {
-        "font-size": "2vh"
+        "font-size": "3vh",
+        "backgroundColor":"#03DAC5"
+
     }
 
 }

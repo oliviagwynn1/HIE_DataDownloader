@@ -43,7 +43,6 @@ class Home extends Component {
                 <Button
                     style={styles.connectButtonStyle}
                     variant="raised"
-                    color={"primary"}
                     onClick={this.connectDevices}
                     label={"Connect to Devices"}
                     >

@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, request
 import os
+from flask_cors import CORS
 from datetime import datetime
 from checksumdir import dirhash
 from get_file_names import get_file_names
 from encode_for_json import encode_for_json
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/api/send_enc_file", methods=["GET"])

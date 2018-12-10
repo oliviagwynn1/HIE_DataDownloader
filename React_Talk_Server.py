@@ -40,7 +40,7 @@ def send_enc_file():
             'data': dat_str,
             'modification_time': mod_time,
         }
-        output_dictionary[os.path.basename(filenames[0])] = file_dict
+        output_dictionary[os.path.basename(name)] = file_dict
 
     return jsonify(output_dictionary)
 

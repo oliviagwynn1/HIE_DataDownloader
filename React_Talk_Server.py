@@ -27,7 +27,7 @@ def send_enc_file():
     output_dictionary = {
         'mac_address': 10,
         'checksum': md5hash,
-        'Sessions': {},
+        'Sessions': {'date': {}},
     }
 
     # output_dictionary = {}
@@ -48,12 +48,12 @@ def send_enc_file():
         mod_time = datetime.fromtimestamp(tm_stamp).strftime('%Y-%m-%d %H:%M:%S')
 
         # create nested dictionary for each file and add to bit dict
-        file_dict = {
-            'data': dat_str,
-            'modification_time': mod_time,
-            'hash': hash_str,
-        }
-        output_dictionary['Files'][os.path.basename(name)] = file_dict
+        # file_dict = {
+        #     'data': dat_str,
+        #     'modification_time': mod_time,
+        #     'hash': hash_str,
+        # }
+        output_dictionary['Sessions']['date'][os.path.basename(name)] = dat_str
 
     return jsonify(output_dictionary)
 

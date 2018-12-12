@@ -11,12 +11,16 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/api/send_enc_file", methods=["POST"])
+@app.route("/api/send_data", methods=["POST"])
 def send_enc_file():
     """
     Receives dictionary with the form
-    device_data = {'SN1': '/Volumes/MV1',
-                   'SN2': '/Volumes/MV1 1',
+    device_data = {'SN1': {'MountPoint': '/Volumes/MV1',
+                           'Num_Files': 600,
+                          },
+                   'SN2': {'MountPoint': '/Volumes/MV1 1',
+                           'Num_Files': 50,
+                          },
                    }
     That contains the serial number and the matched location
     :return:
@@ -29,6 +33,9 @@ def send_enc_file():
 
     # Calculate checksum of directory
     # md5hash = dirhash(dir, 'md5')
+
+    # Set up responses dictionary
+    responses = {}
 
     # Get device information dictionary and pull route to device
     # dir is route to the device, the value in the dict
@@ -89,11 +96,14 @@ def send_enc_file():
                     ".BIN", "")] = file_dict
 
         # Post a dictionary for each Serial number to the server
-        response = requests.post('http://vcm-7335.vm.duke.edu:5010/'
+        r = requests.post('http://vcm-7335.vm.duke.edu:5010/'
                                  'api/luck/add_data',
                                  json=output_dictionary)
 
-    return jsonify(response.json())
+        # Turn responses into a dictionary
+        responses[SN] = r.json()
+
+    return jsonify(responses)
 
 
 if __name__ == "__main__":

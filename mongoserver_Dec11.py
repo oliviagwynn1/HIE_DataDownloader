@@ -14,49 +14,42 @@ logging.basicConfig(filename="Dec11_logging.txt",
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     level=logging.DEBUG)
 
-@app.route("/api/luck/add_data", methods=["GET"])
-def add_data():
 
+@app.route("/api/luck/add_data", methods=["POST"])
+def add_data():
     newdict = request.get_json()
     myclient = pymongo.MongoClient("mongodb://localhost:27017/")
     mydb = myclient["practice_Dec11"]
     mycol = mydb["Players"]
 
-    #validate it has the right keys
-
-    newkey = newdict["_id"]
-    newdata = newdict["session_data"]
-    myquery = {"_id": newkey}
+    # validate it has the right keys
 
     try:
-        x = mycol.insert_one(newdict)
+        mycol.insert_one(newdict)
         print('added data to new key')
-        kk='added data to new key'
+        kk = 'added data to new key'
     except DuplicateKeyError:
         print('key already exists ')
-        #possibly change if don't need
-        matchingdata = mycol.find(myquery)
-        for x in matchingdata:
-            newvalues = {"$set": newdata}
+
+        # Grab new session dates
+        session_dates = []
+        session_data = newdict["session_data"]
+        for keys, values in session_data.items():
+            session_dates.append(keys)
+
+        # Cycle through session_dates and add
+        for date in session_dates:
+            newkey = newdict["_id"]
+            newdata = newdict["session_data"][date]
+            myquery = {"_id": newkey}
+
+            newvalues = {"$set": {"session_data." + date: newdata}}
             mycol.update_one(myquery, newvalues)
             print('added data to existing key')
-            kk='added data to existing key'
+            kk = 'added data to existing key'
 
     return jsonify(kk)
 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
-
-
-
-
-
-
-
-
-
-
-
-
-

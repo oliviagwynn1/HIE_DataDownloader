@@ -18,20 +18,27 @@ def send_enc_file():
     # dir = '/Volumes/MV1'
 
     # Calculate checksum of directory
-    md5hash = dirhash(dir, 'md5')
+    # md5hash = dirhash(dir, 'md5')
 
     # Harvest Filenames from directory
     filenames = get_file_names(dir)
 
-    # Pull the first filename and get the date
-    date_stamp = os.path.getmtime(filenames[1])
-    session_date = datetime.fromtimestamp(date_stamp).strftime('%Y-%m-%d')
+    # Pull all of the filenames and get a list of dates
+    session_dates = set()
+    for file in filenames:
+        date_stamp = os.path.getmtime(file)
+        session_date = datetime.fromtimestamp(date_stamp).strftime('%Y-%m-%d')
+        session_dates.add(session_date)
 
-    # Setup output dictionary, include checksum
+    # Setup output dictionary
     output_dictionary = {
-        '_id': '3',
-        'session_data': {session_date: {}},
+        '_id': '2',
+        'session_data': {},
     }
+
+    # Input a session date for each of the session dates pulled
+    for date in session_dates:
+        output_dictionary['session_data'][date] = {}
 
     # output_dictionary = {}
     # read files, encode, calculate hash, and put in dictionary
@@ -53,12 +60,11 @@ def send_enc_file():
 
         # create nested dictionary for each file and add to bit dict
         file_dict = {
-            'data': dat_str,
+            'data': dat_str[0:10],
             'mod_time': mod_time,
             'hash': hash_str,
         }
-        if mod_date == session_date:
-            output_dictionary['Sessions'][session_date][os.path.basename(name).replace(".BIN", "")] = file_dict
+        output_dictionary['session_data'][mod_date][os.path.basename(name).replace(".BIN", "")] = file_dict
 
     return jsonify(output_dictionary)
 

@@ -110,15 +110,11 @@ def send_data():
 
 @app.route("/api/send_device_info", methods=["GET"])
 def send_device_info():
+
     device_data = {
-        '261758686': {
-            'Mount_Point': '/Users/clarkbulleit/Desktop/Test/SN1',
-            'Num_Files': 600,
-        },
-        '261813717': {
-            'Mount_Point': '/Users/clarkbulleit/Desktop/Test/SN2',
-            'Num_Files': 50,
-        },
+        'Players': ['261758686', '261813717'],
+        'Mount_Points': ['/Users/clarkbulleit/Desktop/Test/SN1', '/Users/clarkbulleit/Desktop/Test/SN2']
+        'Num_Files': [600, 50]
     }
 
     return jsonify(device_data)

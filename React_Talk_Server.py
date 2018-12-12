@@ -53,12 +53,12 @@ def send_enc_file():
 
         # create nested dictionary for each file and add to bit dict
         file_dict = {
-            'data': dat_str[0:500],
+            'data': dat_str,
             'modification_time': mod_time,
             'hash': hash_str,
         }
         if mod_date == session_date:
-            output_dictionary['Sessions'][session_date][os.path.basename(name)] = file_dict
+            output_dictionary['Sessions'][session_date][os.path.basename(name).replace(".BIN", "")] = file_dict
 
     return jsonify(output_dictionary)
 

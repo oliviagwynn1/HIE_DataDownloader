@@ -9,8 +9,10 @@ def find_devices():
         for dev in devices:
             if dev.idProduct == 0x03fc:
                 print("Device:", dev.filename)
-                print("  idVendor: %d (0x%04x)" % (dev.idVendor, dev.idVendor))
-                print("  idProduct: %d (0x%04x)" % (dev.idProduct, dev.idProduct))
+                print("  idVendor: %d (0x%04x)" % (dev.idVendor,
+                                                   dev.idVendor))
+                print("  idProduct: %d (0x%04x)" % (dev.idProduct,
+                                                    dev.idProduct))
                 print("Manufacturer:", dev.iManufacturer)
                 print("Serial:", dev.iSerialNumber)
                 print("Product:", dev.iProduct)

@@ -42,12 +42,11 @@ if __name__ == "__main__":
                 newhashes.append(hash_str)
 
         if hashes == newhashes:
-            print('All data for session date {0} was received properly'.format(time))
+            print('All data for session date {0} was received properly'
+                  .format(time))
         else:
             print('Data on {0} was not received properly'.format(time))
-
 
     # print(hashes)
     # print(newhashes)
     # print(hashes == newhashes)
-

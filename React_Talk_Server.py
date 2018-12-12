@@ -45,7 +45,8 @@ def send_enc_file():
         session_dates = set()
         for file in filenames:
             date_stamp = os.path.getmtime(file)
-            session_date = datetime.fromtimestamp(date_stamp).strftime('%Y-%m-%d')
+            session_date = datetime.fromtimestamp(date_stamp)\
+                .strftime('%Y-%m-%d')
             session_dates.add(session_date)
 
         # Setup output dictionary
@@ -72,8 +73,10 @@ def send_enc_file():
 
             # Get modification and creation timestamp and convert to datetime
             tm_stamp = os.path.getmtime(name)
-            mod_time = datetime.fromtimestamp(tm_stamp).strftime('%Y-%m-%d %H:%M:%S')
-            mod_date = datetime.fromtimestamp(tm_stamp).strftime('%Y-%m-%d')
+            mod_time = datetime.fromtimestamp(tm_stamp).\
+                strftime('%Y-%m-%d %H:%M:%S')
+            mod_date = datetime.fromtimestamp(tm_stamp).\
+                strftime('%Y-%m-%d')
 
             # create nested dictionary for each file and add to bit dict
             file_dict = {
@@ -81,9 +84,16 @@ def send_enc_file():
                 'mod_time': mod_time,
                 'hash': hash_str,
             }
-            output_dictionary['session_data'][mod_date][os.path.basename(name).replace(".BIN", "")] = file_dict
+            output_dictionary['session_data'][mod_date][
+                os.path.basename(name).replace(
+                    ".BIN", "")] = file_dict
 
-    return jsonify(output_dictionary)
+        # Post a dictionary for each Serial number to the server
+        response = requests.post('http://vcm-7335.vm.duke.edu:5010/'
+                                 'api/luck/add_data',
+                                 json=output_dictionary)
+
+    return jsonify(response.json())
 
 
 if __name__ == "__main__":

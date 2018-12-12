@@ -12,7 +12,7 @@ CORS(app)
 
 
 @app.route("/api/send_data", methods=["POST"])
-def send_enc_file():
+def send_data():
     """
     Receives dictionary with the form
     device_data = {'SN1': {'MountPoint': '/Volumes/MV1',
@@ -42,8 +42,10 @@ def send_enc_file():
     # SN is the serial number, the key in the dictionary
     device_dict = request.get_json()
     for k, v in device_dict.items():
-        dir = v
-        SN = k
+        if isinstance(v, dict):
+            dir = v['Mount_Point']
+            print(dir)
+            SN = k
 
         # Harvest Filenames from directory
         filenames = get_file_names(dir)
@@ -104,6 +106,22 @@ def send_enc_file():
         responses[SN] = r.json()
 
     return jsonify(responses)
+
+
+@app.route("/api/send_device_info", methods=["GET"])
+def send_device_info():
+    device_data = {
+        '261758686': {
+            'Mount_Point': '/Users/clarkbulleit/Desktop/Test/SN1',
+            'Num_Files': 600,
+        },
+        '261813717': {
+            'Mount_Point': '/Users/clarkbulleit/Desktop/Test/SN2',
+            'Num_Files': 50,
+        },
+    }
+
+    return jsonify(device_data)
 
 
 if __name__ == "__main__":

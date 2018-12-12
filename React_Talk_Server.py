@@ -29,8 +29,8 @@ def send_enc_file():
 
     # Setup output dictionary, include checksum
     output_dictionary = {
-        'mac_address': 10,
-        'Sessions': {session_date: {}},
+        '_id': '3',
+        'session_data': {session_date: {}},
     }
 
     # output_dictionary = {}
@@ -54,7 +54,7 @@ def send_enc_file():
         # create nested dictionary for each file and add to bit dict
         file_dict = {
             'data': dat_str,
-            'modification_time': mod_time,
+            'mod_time': mod_time,
             'hash': hash_str,
         }
         if mod_date == session_date:

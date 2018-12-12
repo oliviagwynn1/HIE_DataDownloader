@@ -23,11 +23,14 @@ def send_enc_file():
     # Harvest Filenames from directory
     filenames = get_file_names(dir)
 
+    # Pull the first filename and get the date
+    date_stamp = os.path.getmtime(filenames[1])
+    session_date = datetime.fromtimestamp(date_stamp).strftime('%Y-%m-%d')
+
     # Setup output dictionary, include checksum
     output_dictionary = {
         'mac_address': 10,
-        'checksum': md5hash,
-        'Sessions': {'date': {}},
+        'Sessions': {session_date: {}},
     }
 
     # output_dictionary = {}
@@ -46,14 +49,16 @@ def send_enc_file():
         # Get modification and creation timestamp and convert to datetime
         tm_stamp = os.path.getmtime(name)
         mod_time = datetime.fromtimestamp(tm_stamp).strftime('%Y-%m-%d %H:%M:%S')
+        mod_date = datetime.fromtimestamp(tm_stamp).strftime('%Y-%m-%d')
 
         # create nested dictionary for each file and add to bit dict
-        # file_dict = {
-        #     'data': dat_str,
-        #     'modification_time': mod_time,
-        #     'hash': hash_str,
-        # }
-        output_dictionary['Sessions']['date'][os.path.basename(name)] = dat_str
+        file_dict = {
+            'data': dat_str[0:500],
+            'modification_time': mod_time,
+            'hash': hash_str,
+        }
+        if mod_date == session_date:
+            output_dictionary['Sessions'][session_date][os.path.basename(name)] = file_dict
 
     return jsonify(output_dictionary)
 

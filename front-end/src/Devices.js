@@ -18,7 +18,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-// import axios from 'axios'
+import axios from 'axios'
 
 let counter = 0;
 function createData(name) {
@@ -59,22 +59,6 @@ class DeviceTableHead extends Component {
         this.props.onRequestSort(event, property);
     };
 
-
-    // getData = () => {
-    //
-    //     const Url='http://adpl.suyash.io/api/devices'
-    //     const params={
-    //         name:"Olivia"
-    //     }
-    //
-    //     // when finished call in function that takes in parameter data
-    //     axios.get(Url, params).then((data) => {
-    //         console.log(data);
-    //         console.log("data is");
-    //         console.log(data.data);
-    //         this.setState({'sites': data.data});
-    //     });
-    // }
 
     render() {
         const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
@@ -177,7 +161,7 @@ let DeviceTableToolbar = props => {
             <div className={classes.actions}>
                 {numSelected > 0 ? (
                     <Tooltip title="Download">
-                        <IconButton aria-label="VerticalAlignBottom">
+                        <IconButton aria-label="VerticalAlignBottom" onClick={this.getData}>
                             <VerticalAlignBottomIcon />
                         </IconButton>
                     </Tooltip>
@@ -275,6 +259,13 @@ class DeviceTable extends React.Component {
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+    getData = () => {
+        axios.post('http://127:0.0.1:5000').then((isSelected) => {
+                console.log('Need this data.')
+            }
+        )
+    };
+
     render() {
         const { classes } = this.props;
         const { ids, order, orderBy, selected, rowsPerPage, page } = this.state;
@@ -344,6 +335,7 @@ class DeviceTable extends React.Component {
         );
     }
 }
+
 
 DeviceTable.propTypes = {
     classes: PropTypes.object.isRequired,

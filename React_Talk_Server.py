@@ -113,8 +113,8 @@ def send_device_info():
 
     device_data = {
         'Players': ['261758686', '261813717'],
-        'Mount_Points': ['/Users/clarkbulleit/Desktop/Test/SN1', '/Users/clarkbulleit/Desktop/Test/SN2']
-        'Num_Files': [600, 50]
+        'Mount_Points': ['/Users/clarkbulleit/Desktop/Test/SN1', '/Users/clarkbulleit/Desktop/Test/SN2'],
+        'Num_Files': [600, 50],
     }
 
     return jsonify(device_data)

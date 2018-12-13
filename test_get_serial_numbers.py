@@ -1,5 +1,6 @@
 from get_serial_numbers import get_serial_numbers
 import pytest
+import os
 
 
 @pytest.mark.parametrize("a,expected", [
@@ -13,8 +14,7 @@ import pytest
     ('100/L101.BIN', 261758686),
 ])
 def test_get_serial_numbers(a, expected):
-    path = '/Users/clarkbulleit/Desktop/Class Folders/' \
-           'Medical Software/Projects/bme590final/Test_BIN/'
+    path = os.getcwd() + '/Test_BIN/'
     file = path + a
 
     assert get_serial_numbers(file) == expected

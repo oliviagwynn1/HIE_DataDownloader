@@ -16,13 +16,11 @@ CORS(app)
 def send_data():
     """
     Receives dictionary with the form
-    device_data = {'SN1': {'MountPoint': '/Volumes/MV1',
-                           'Num_Files': 600,
-                          },
-                   'SN2': {'MountPoint': '/Volumes/MV1 1',
-                           'Num_Files': 50,
-                          },
-                   }
+    device_data = {
+        'Players': ['261758686', '261813717'],
+        'Mount_Points': ['/Volumes/MV1', '/Volumes/MV1 1'],
+        'Num_Files': [609, 14],
+    }
     That contains the serial number and the matched location
     :return:
     """
@@ -42,11 +40,9 @@ def send_data():
     # dir is route to the device, the value in the dict
     # SN is the serial number, the key in the dictionary
     device_dict = request.get_json()
-    for k, v in device_dict.items():
-        if isinstance(v, dict):
-            dir = v['Mount_Point']
-            print(dir)
-            SN = k
+    for i, player in enumerate(device_dict['Players']):
+        dir = device_dict['Mount_Points'][i]
+        SN = player
 
         # Harvest Filenames from directory
         filenames = get_file_names(dir)

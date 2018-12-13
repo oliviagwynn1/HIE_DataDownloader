@@ -98,9 +98,9 @@ def send_data():
                     ".BIN", "")] = file_dict
 
         # Post a dictionary for each Serial number to the server
-        r = requests.post('http://vcm-7335.vm.duke.edu:5010/'
-                                 'api/luck/add_data',
-                                 json=output_dictionary)
+        r = requests.post(
+            'http://vcm-7335.vm.duke.edu:5010/api/luck/add_data',
+            json=output_dictionary)
 
         # Turn responses into a dictionary
         responses[SN] = r.json()
@@ -113,7 +113,8 @@ def send_device_info():
 
     device_data = {
         'Players': ['261758686', '261813717'],
-        'Mount_Points': ['/Users/clarkbulleit/Desktop/Test/SN1', '/Users/clarkbulleit/Desktop/Test/SN2'],
+        'Mount_Points': ['/Users/clarkbulleit/Desktop/Test/SN1',
+                         '/Users/clarkbulleit/Desktop/Test/SN2'],
         'Num_Files': [600, 50],
     }
 

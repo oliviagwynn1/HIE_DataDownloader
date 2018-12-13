@@ -30,11 +30,11 @@ def searchdb(s_dict, mycol):
                         logging.info('Added data for user'
                                      ' %s, you can delete',
                                      s_key)
-                        return 1
+                        return True
                     else:
                         print("New data NOT in db")
                         logging.info("Didn't add data for %s,"
                                      " don't delete off device", s_key)
-                        return 0
+                        return False
             except:
                 raise (KeyError)

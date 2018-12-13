@@ -36,23 +36,23 @@ class App extends Component {
         })
     };
 
-    getC = () => {
-     if ((this.state.homeView===true) && (this.state.devicesView===false)) {
-                            return (<Home
-                                        view={this.changeView}
-                                        data={this.getDashrData}/>)
-                        } else if ((this.state.homeView===false) && (this.state.devicesView===true)) {
-                            return (<Devices
-                                        data={this.state.dashrData}
-                                        players={this.state.players}
-                                        mountPoints={this.state.mountPoints}
-                                        verificationData={this.verificationData}
-                                        view1 = {this.changeToVerView}/>)
-                        } else {
-                            return(<ManageDevices
-                                        verData={this.state.verData}/>)
-                        }
-                    }
+    views = () => {
+        if ((this.state.homeView===true) && (this.state.devicesView===false)) {
+            return (<Home
+                view={this.changeView}
+                data={this.getDashrData}/>)
+        } else if ((this.state.homeView===false) && (this.state.devicesView===true)) {
+            return (<Devices
+                data={this.state.dashrData}
+                players={this.state.players}
+                mountPoints={this.state.mountPoints}
+                verificationData={this.verificationData}
+                view1 = {this.changeToVerView}/>)
+        } else {
+            return(<ManageDevices
+                verData={this.state.verData}/>)
+        }
+    };
 
 
     verificationData = (resp) => {
@@ -72,7 +72,7 @@ class App extends Component {
                     Welcome to the client application for the DASHR
                 </div>
                 <Paper style={styles.paperStyle}>
-                    {this.getC()}
+                    {this.views()}
 
                 </Paper>
 

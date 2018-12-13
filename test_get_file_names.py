@@ -10,4 +10,4 @@ def test_get_file_names():
         path = dir + '/L' + str(i) + '.BIN'
         correct_out.append(path)
 
-    assert get_file_names(dir) == correct_out
+    assert sorted(get_file_names(dir)) == sorted(correct_out)

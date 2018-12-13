@@ -18,7 +18,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import axios from 'axios'
 
 let counter = 0;
 function createData(name) {
@@ -137,6 +136,8 @@ const toolbarStyles = theme => ({
     },
 });
 
+
+
 let DeviceTableToolbar = props => {
     const { numSelected, classes } = props;
 
@@ -161,8 +162,10 @@ let DeviceTableToolbar = props => {
             <div className={classes.actions}>
                 {numSelected > 0 ? (
                     <Tooltip title="Download">
-                        <IconButton aria-label="VerticalAlignBottom" onClick={this.getData}>
-                            <VerticalAlignBottomIcon />
+                        <IconButton aria-label="VerticalAlignBottom">
+                            <VerticalAlignBottomIcon
+                                // onClick={this.devicesWanted}
+                            />
                         </IconButton>
                     </Tooltip>
                 ) : (
@@ -181,6 +184,7 @@ DeviceTableToolbar.propTypes = {
     classes: PropTypes.object.isRequired,
     numSelected: PropTypes.number.isRequired,
 };
+
 DeviceTableToolbar = withStyles(toolbarStyles)(DeviceTableToolbar);
 
 const styles = theme => ({
@@ -196,18 +200,31 @@ const styles = theme => ({
     },
 });
 
+
+
+
+var devicesConnected = ["a","x","list1"];
+var dataList = [];
+
+for (var i in devicesConnected) {
+    dataList.push(createData(devicesConnected[i]))
+}
+
+console.log(dataList);
+
 class DeviceTable extends React.Component {
+
+
     state = {
         order: 'asc',
         orderBy: 'name',
         selected: [],
-        ids: [
-            createData('Player 1'),
-            createData('Player 2'),
-        ],
+        ids: dataList,
         page: 0,
-        rowsPerPage: 5,
+        rowsPerPage: 5
+
     };
+
 
     handleRequestSort = (event, property) => {
         const orderBy = property;
@@ -259,12 +276,6 @@ class DeviceTable extends React.Component {
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
-    getData = () => {
-        axios.post('http://127:0.0.1:5000').then((isSelected) => {
-                console.log('Need this data.')
-            }
-        )
-    };
 
     render() {
         const { classes } = this.props;

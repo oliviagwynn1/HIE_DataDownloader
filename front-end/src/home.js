@@ -5,15 +5,13 @@ import { styles } from './styling'
 import ErrorMessage from './error';
 
 
-
 class Home extends Component {
     state = {
         'errorMessageOpen': false,
     };
 
-
     connectDevices = () => {
-        let get_connectDevices = axios.get('http://vcm-7335.vm.duke.edu:5002/api/send_device_info');
+        let get_connectDevices = axios.get('http://vcm-7335.vm.duke.edu:5005/api/send_device_info');
         get_connectDevices.then( (response) => {
             this.props.data(response);
             if (response.data.status > 300) {
@@ -28,8 +26,7 @@ class Home extends Component {
             this.setState({errorMessageOpen: true})
             console.log(this.state.homeView)
         })
-        }
-
+        };
 
     render(){
         return (

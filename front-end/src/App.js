@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Home from './home';
-import Devices from './Devices';
+import DeleteDevices from './DeleteDevices';
+// import Devices from './Devices';
 import Paper from '@material-ui/core/Paper';
 import { styles, theme } from './styling'
 import { MuiThemeProvider} from '@material-ui/core/styles';
@@ -43,7 +44,7 @@ class App extends Component {
                     (this.state.homeView)
                         ? <Home view={this.changeView}
                               data={this.getDashrData}/>
-                        : <Devices data={this.state.dashrData}
+                        : <DeleteDevices data={this.state.dashrData}
                                    players={this.state.players}
                                    mountPoints={this.state.mountPoints}
                                    />

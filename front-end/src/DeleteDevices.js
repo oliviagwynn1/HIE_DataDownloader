@@ -15,10 +15,16 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
+import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import axios from 'axios';
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
+import grey from '@material-ui/core/colors/grey';
+import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import ErrorIcon from '@material-ui/icons/Error';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 
 function desc(a, b, orderBy) {
@@ -47,6 +53,7 @@ function getSorting(order, orderBy) {
 
 const rows = [
     { id: 'name', numeric: false, disablePadding: true, label: 'Devices' },
+    { id: 'ver', numeric: false, disablePadding: true, label: 'Verification' },
 ];
 
 class DeviceTableHead extends Component {
@@ -133,7 +140,7 @@ const toolbarStyles = theme => ({
 
 
 let DeviceTableToolbar = props => {
-    const { numSelected, classes, downloadClick } = props;
+    const { numSelected, classes, deleteClick } = props;
 
     return (
         <Toolbar
@@ -148,17 +155,17 @@ let DeviceTableToolbar = props => {
                     </Typography>
                 ) : (
                     <Typography variant="h6" id="tableTitle">
-                        Device List
+                        Data Verified: Chose devices to delete
                     </Typography>
                 )}
             </div>
             <div className={classes.spacer} />
             <div className={classes.actions}>
                 {numSelected > 0 ? (
-                    <Tooltip title="Download">
-                        <IconButton aria-label="VerticalAlignBottom">
-                            <VerticalAlignBottomIcon
-                                onClick={downloadClick}
+                    <Tooltip title="Delete">
+                        <IconButton aria-label="Delete">
+                            <DeleteIcon
+                                onClick={deleteClick}
                             />
                         </IconButton>
                     </Tooltip>
@@ -177,7 +184,7 @@ let DeviceTableToolbar = props => {
 DeviceTableToolbar.propTypes = {
     classes: PropTypes.object.isRequired,
     numSelected: PropTypes.number.isRequired,
-    downloadClick: PropTypes.func.isRequired,
+    deleteClick: PropTypes.func.isRequired,
 };
 
 DeviceTableToolbar = withStyles(toolbarStyles)(DeviceTableToolbar);
@@ -202,12 +209,19 @@ class DeviceTable extends React.Component {
         order: 'asc',
         orderBy: 'name',
         selected: [],
-        ids: this.props.players.map(this.createData),
+        ver: this.props.verData.map(this.createData),
         page: 0,
         rowsPerPage: 5,
     };
 
-    devicesWanted = () => {
+        createData(name, id) {
+            let name_list = Object.keys(name);
+            let ver_list = Object.entries(name);
+            return {id: id, name: name_list, ver: ver_list};
+        }
+
+
+    devicesDeleted = () => {
         let Players = this.state.selected.map(i => this.props.players[i]);
         let Mount_Points = this.state.selected.map(i => this.props.mountPoints[i]);
 
@@ -217,12 +231,8 @@ class DeviceTable extends React.Component {
                 console.log(res);
                 console.log(res.data);
             })
-};
+    };
 
-
-    createData(name, id) {
-        return {id: id, name: name};
-    }
 
     handleRequestSort = (event, property) => {
         const orderBy = property;
@@ -274,17 +284,45 @@ class DeviceTable extends React.Component {
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+    // handleToggle = value => () => {
+    //     const { checked } = this.state;
+    //     const currentIndex = checked.indexOf(value);
+    //     const newChecked = [...checked];
+    //
+    //     if (currentIndex === -1) {
+    //         newChecked.push(value);
+    //     } else {
+    //         newChecked.splice(currentIndex, 1);
+    //     }
+    //
+    //     this.setState({
+    //         checked: newChecked,
+    //     });
+    // };
+
 
     render() {
         const { classes } = this.props;
         const { ids, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, ids.length - page * rowsPerPage);
 
+        // const { classes } = this.props;
+        // var good_feedback_Keys = Object.keys(this.state.feedback).filter(k => this.state.feedback[k]);
+        // var bad_feedback_Keys = Object.keys(this.state.feedback).filter(k => !this.state.feedback[k]);
+        //
+        const theme = createMuiTheme({
+            palette: {
+                primary: green,
+                secondary: red,
+                tertiary: grey,
+            },
+        });
+
         console.log(this.state.ids);
 
         return (
             <Paper className={classes.root}>
-                <DeviceTableToolbar numSelected={selected.length} downloadClick={this.devicesWanted}/>
+                <DeviceTableToolbar numSelected={selected.length} deleteClick={this.devicesDeleted}/>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
                         <DeviceTableHead
@@ -296,6 +334,7 @@ class DeviceTable extends React.Component {
                             rowCount={ids.length}
                         />
                         <TableBody>
+                            <MuiThemeProvider theme={theme}>
                             {stableSort(ids, getSorting(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(n => {
@@ -316,6 +355,11 @@ class DeviceTable extends React.Component {
                                             <TableCell component="th" scope="row" padding="none">
                                                 {n.name}
                                             </TableCell>
+                                            <TableCell component="th" scope="row" padding="none">
+                                                {(n.ver) ? <CheckCircleIcon color="primary"/> : <ErrorIcon color="secondary"/>}
+                                            </TableCell>
+
+
                                         </TableRow>
                                     );
                                 })}
@@ -324,6 +368,7 @@ class DeviceTable extends React.Component {
                                     <TableCell colSpan={6} />
                                 </TableRow>
                             )}
+                            </MuiThemeProvider>
                         </TableBody>
                     </Table>
                 </div>

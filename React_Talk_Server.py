@@ -6,10 +6,20 @@ from datetime import datetime
 from checksumdir import dirhash
 import requests
 from get_file_names import get_file_names
+from validate_BE_keys import validate_be_keys
 from encode_for_json import encode_for_json
 from get_serial_numbers import get_serial_numbers
+import logging
 app = Flask(__name__)
 CORS(app)
+
+error_messages = {
+        0: {"message": "Post Keys not correct"},
+        }
+
+logging.basicConfig(filename="Main_Log.txt",
+                    format='%(asctime)s %(message)s',
+                    datefmt='%m/%d/%Y %I:%M:%S %p')
 
 
 @app.route("/api/send_data", methods=["POST"])
@@ -25,21 +35,25 @@ def send_data():
     :return:
     """
 
-    # dir = '/Users/clarkbulleit/Desktop/Class Folders/' \
-    #        'Medical Software/Projects/bme590final/Test_BIN'
-
-    # dir = '/Volumes/MV1'
-
-    # Calculate checksum of directory
-    # md5hash = dirhash(dir, 'md5')
-
     # Set up responses dictionary
     responses = {}
+
+    # Pull data from Post request
+    device_dict = request.get_json()
+
+    # validate keys in dictionary
+    keys = ['Mount_Points', 'Num_Files', 'Players']
+    try:
+        validate_be_keys(keys, device_dict)
+    except KeyError:
+        logging.warning(error_messages[0])
+        return jsonify(error_messages[0]), 500
+
+    # Make sure data is in correct form
 
     # Get device information dictionary and pull route to device
     # dir is route to the device, the value in the dict
     # SN is the serial number, the key in the dictionary
-    device_dict = request.get_json()
     for i, player in enumerate(device_dict['Players']):
         dir = device_dict['Mount_Points'][i]
         SN = player

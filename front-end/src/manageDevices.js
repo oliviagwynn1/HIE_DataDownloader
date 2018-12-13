@@ -4,9 +4,12 @@ import { styles } from './styling'
 class Devices extends Component {
 
     render(){
+        console.log(this.props.data)
+        console.log(this.props.players)
         return(
             <div style={styles.viewStyle}>
-                this is new view - the list of devices will go here!
+                this is where Olivia's table will go! wooooo
+
             </div>
         )
     }

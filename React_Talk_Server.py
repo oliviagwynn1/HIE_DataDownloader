@@ -146,8 +146,9 @@ def send_device_info():
 
     # Set path to /Volumes for mac, will be different for PC
     # dir = '/Volumes/'
-    dir = '/Users/clarkbulleit/Desktop/Test/'
-
+    # dir = '/Users/clarkbulleit/Desktop/Test/'
+    # dir = '/Users/clarkbulleit/Desktop/Class Folders/Medical Software/Projects/bme590final/Test/'
+    dir = '/home/vcm/clark/bme590final/Test/'
     # Setup up device_data output dictionary
     device_data = {
         'Players': [],
@@ -181,5 +182,5 @@ if __name__ == "__main__":
 
     # First option is for development
     # Second option is for deployment
-    app.run(host="127.0.0.1", port=5005)
-    # app.run(host="0.0.0.0", port=5002)
+    # app.run(host="127.0.0.1", port=5005)
+    app.run(host="0.0.0.0", port=5002)

@@ -36,7 +36,7 @@ def validate_keys(A: object) -> object:
         logging.warning("Session_data key does not exist")
     # check type of session data
     else:
-        if not isinstance(A["session_data"],dict):
+        if not isinstance(A["session_data"], dict):
             raise TypeError
             logging.warning("Session_data is not a dictionary")
         # if it is a dict, check the keys in it
@@ -59,7 +59,7 @@ def validate_keys(A: object) -> object:
         raise KeyError
     # check type of id data
     else:
-        if not isinstance(A["_id"],str):
+        if not isinstance(A["_id"], str):
             logging.warning("ID not a string")
             raise KeyError
 

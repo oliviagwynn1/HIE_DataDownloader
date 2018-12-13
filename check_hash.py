@@ -5,7 +5,8 @@ from encode_for_json import encode_for_json
 
 
 if __name__ == "__main__":
-    r = requests.get('http://127.0.0.1:5005/api/send_enc_file')
+    device_data = {'Mount_Points': ['/Users/clarkbulleit/Desktop/Test/SN1', '/Users/clarkbulleit/Desktop/Test/SN2'], 'Num_Files': [20, 10], 'Players': [261758686, 261813717]}
+    r = requests.post('http://127.0.0.1:5005/api/send_enc_file', json=device_data)
     # r = requests.get('http://vcm-7335.vm.duke.edu:5004/api/send_enc_file')
     data = r.json()
 
@@ -32,7 +33,6 @@ if __name__ == "__main__":
                 hashes.append(v['hash'])
                 # Decode the data
                 data_binary = b64decode(v['data'])
-                # Write to local file
                 # calculate hash of decoded data
                 hasher.update(data_binary)
                 # Digest Hash and save as JSON encoded form
@@ -41,7 +41,8 @@ if __name__ == "__main__":
                 # Add newly calculated hash to newhash list
                 newhashes.append(hash_str)
 
-        if hashes == newhashes:
+        if hashes != newhashes:
+            raise ValueError
             print('All data for session date {0} was received properly'
                   .format(time))
         else:

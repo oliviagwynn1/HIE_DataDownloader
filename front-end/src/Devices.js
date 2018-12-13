@@ -211,7 +211,7 @@ class DeviceTable extends React.Component {
         let Players = this.state.selected.map(i => this.props.players[i]);
         let Mount_Points = this.state.selected.map(i => this.props.mountPoints[i]);
 
-        axios.post('http://vcm-7335.vm.duke.edu:5002/api/send_data',
+        axios.post('http://vcm-7335.vm.duke.edu:5005/api/send_data',
             {"Players":Players, "Mount_Points":Mount_Points})
             .then(res => {
                 console.log(res);

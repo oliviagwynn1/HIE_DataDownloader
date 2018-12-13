@@ -10,6 +10,7 @@ from validate_BE_keys import validate_be_keys
 from encode_for_json import encode_for_json
 from get_serial_numbers import get_serial_numbers
 from check_value_types import check_value_types
+from check_be_list_length import check_be_list_length
 import logging
 app = Flask(__name__)
 CORS(app)
@@ -17,6 +18,8 @@ CORS(app)
 error_messages = {
         0: {"message": "Post Keys not correct"},
         1: {"message": "Device dictionary keys are not lists"},
+        2: {"message": "Device dictionary lists are not equal"},
+        3: {"message": "Cannot connect to remote server"},
         }
 
 logging.basicConfig(filename="Main_Log.txt",
@@ -57,6 +60,13 @@ def send_data():
     except TypeError:
         logging.warning(error_messages[1])
         return jsonify(error_messages[1]), 500
+
+    # Make sure the lists have equal length, not empty
+    try:
+        check_be_list_length(device_dict)
+    except ValueError:
+        logging.warning(error_messages[2])
+        return jsonify(error_messages[2]), 500
 
     # Get device information dictionary and pull route to device
     # dir is route to the device, the value in the dict
@@ -115,11 +125,14 @@ def send_data():
             output_dictionary['session_data'][mod_date][
                 os.path.basename(name).replace(
                     ".BIN", "")] = file_dict
-
         # Post a dictionary for each Serial number to the server
-        r = requests.post(
-            'http://vcm-7335.vm.duke.edu:5010/api/luck/add_data',
-            json=output_dictionary)
+        try:
+            r = requests.post(
+                'http://vcm-7335.vm.duke.edu:5010/api/luck/add_data',
+                json=output_dictionary)
+        except requests.exceptions.ConnectionError:
+            logging.warning(error_messages[3])
+            return jsonify(error_messages[3]), 500
 
         # Turn responses into a dictionary
         responses[SN] = r.json()
@@ -132,6 +145,7 @@ def send_device_info():
 
     # Set path to /Volumes for mac, will be different for PC
     dir = '/Volumes/'
+    # dir = '/Users/clarkbulleit/Desktop/Test/'
 
     # Setup up device_data output dictionary
     device_data = {
@@ -146,7 +160,7 @@ def send_device_info():
         volumes.extend(dirs)
         break
 
-    # Cylce through devices mounted in Volumes
+    # Cycle through devices mounted in Volumes
     for volume in volumes:
         if volume != 'Macintosh HD':
             path = dir + volume

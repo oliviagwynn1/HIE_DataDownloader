@@ -5,8 +5,8 @@ from encode_for_json import encode_for_json
 
 
 if __name__ == "__main__":
-    device_data = {'Mount_Points': ['/Users/clarkbulleit/Desktop/Test/SN1', '/Users/clarkbulleit/Desktop/Test/SN2'], 'Num_Files': [20, 10], 'Players': [261758686, 261813717]}
-    r = requests.post('http://127.0.0.1:5005/api/send_enc_file', json=device_data)
+    r = requests.post('http://127.0.0.1:5005/api/send_enc_file',
+                      json=device_data)
     # r = requests.get('http://vcm-7335.vm.duke.edu:5004/api/send_enc_file')
     data = r.json()
 

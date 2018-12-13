@@ -146,10 +146,8 @@ def send_device_info():
 
     # Set path to /Volumes for mac, will be different for PC
     # dir = '/Volumes/'
-    # dir = '/Users/clarkbulleit/Desktop/Test/'
-    dir = '/Users/clarkbulleit/Desktop/Class Folders/Medical ' \
-          'Software/Projects/bme590final/Test/'
-    # dir = '/home/vcm/clark/bme590final/Test/'
+
+    dir = os.getcwd() + '/Test_BIN/'
     # Setup up device_data output dictionary
     device_data = {
         'Players': [],

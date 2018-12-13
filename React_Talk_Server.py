@@ -9,12 +9,14 @@ from get_file_names import get_file_names
 from validate_BE_keys import validate_be_keys
 from encode_for_json import encode_for_json
 from get_serial_numbers import get_serial_numbers
+from check_value_types import check_value_types
 import logging
 app = Flask(__name__)
 CORS(app)
 
 error_messages = {
         0: {"message": "Post Keys not correct"},
+        1: {"message": "Device dictionary keys are not lists"},
         }
 
 logging.basicConfig(filename="Main_Log.txt",
@@ -50,6 +52,11 @@ def send_data():
         return jsonify(error_messages[0]), 500
 
     # Make sure data is in correct form
+    try:
+        check_value_types(device_dict)
+    except TypeError:
+        logging.warning(error_messages[1])
+        return jsonify(error_messages[1]), 500
 
     # Get device information dictionary and pull route to device
     # dir is route to the device, the value in the dict
@@ -87,6 +94,7 @@ def send_data():
                 hasher.update(dat)
 
             hash = hasher.digest()
+
             # Encode hash and file for json serializing
             dat_str = encode_for_json(dat)
             hash_str = encode_for_json(hash)

@@ -145,9 +145,9 @@ def send_data():
 def send_device_info():
 
     # Set path to /Volumes for mac, will be different for PC
-    dir = '/Volumes/'
+    # dir = '/Volumes/'
 
-    # dir = os.getcwd() + '/Test/'
+    dir = os.getcwd() + '/Test/'
     response = 250
     # Setup up device_data output dictionary
     device_data = {

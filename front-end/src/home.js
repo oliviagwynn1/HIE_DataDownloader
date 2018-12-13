@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-import { styles } from './styling'
+import { styles } from './styling';
 import ErrorMessage from './error';
+
+
 
 
 
@@ -13,7 +15,7 @@ class Home extends Component {
 
 
     connectDevices = () => {
-        let get_connectDevices = axios.get('http://vcm-7335.vm.duke.edu:5005/api/send_device_info');
+        let get_connectDevices = axios.get('http://vcm-7335.vm.duke.edu:5002/api/send_device_info');
         get_connectDevices.then( (response) => {
             this.props.data(response);
             if (response.data.status > 300) {

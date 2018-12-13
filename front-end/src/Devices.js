@@ -19,11 +19,6 @@ import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
-let counter = 0;
-function createData(name) {
-    counter += 1;
-    return { id: counter, name};
-}
 
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -57,7 +52,6 @@ class DeviceTableHead extends Component {
     createSortHandler = property => event => {
         this.props.onRequestSort(event, property);
     };
-
 
     render() {
         const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
@@ -201,30 +195,22 @@ const styles = theme => ({
 });
 
 
-
-var devicesConnected = ["a","x","list1"];
-var dataList = [];
-
-for (var i in devicesConnected) {
-    dataList.push(createData(devicesConnected[i]))
-}
-
-console.log(dataList);
-
 class DeviceTable extends React.Component {
-
 
     state = {
         order: 'asc',
         orderBy: 'name',
         selected: [],
-        ids: dataList,
+        ids: this.props.players.map(this.createData),
         page: 0,
         rowsPerPage: 5,
-        ids1: this.props.players,
-
     };
 
+//PROBLEM WITH COUNTER
+    createData(name, id) {
+        // this.state.counter += 1;
+        return {id: id, name: name};
+    }
 
     handleRequestSort = (event, property) => {
         const orderBy = property;
@@ -282,7 +268,7 @@ class DeviceTable extends React.Component {
         const { ids, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, ids.length - page * rowsPerPage);
 
-        console.log(this.state.ids1)
+        console.log(this.state.ids);
 
         return (
             <Paper className={classes.root}>

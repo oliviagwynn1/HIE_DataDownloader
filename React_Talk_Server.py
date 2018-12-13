@@ -47,7 +47,7 @@ def send_data():
     device_dict = request.get_json()
 
     # validate keys in dictionary
-    keys = ['Mount_Points', 'Num_Files', 'Players']
+    keys = ['Mount_Points', 'Players']
     try:
         validate_be_keys(keys, device_dict)
     except KeyError:

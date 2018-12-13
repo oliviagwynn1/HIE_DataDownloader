@@ -52,21 +52,21 @@ def send_data():
         validate_be_keys(keys, device_dict)
     except KeyError:
         logging.warning(error_messages[0])
-        return jsonify(error_messages[0]), 500
+        return jsonify(error_messages[0]), 205
 
     # Make sure data is in correct form
     try:
         check_value_types(device_dict)
     except TypeError:
         logging.warning(error_messages[1])
-        return jsonify(error_messages[1]), 500
+        return jsonify(error_messages[1]), 205
 
     # Make sure the lists have equal length, not empty
     try:
         check_be_list_length(device_dict)
     except ValueError:
         logging.warning(error_messages[2])
-        return jsonify(error_messages[2]), 500
+        return jsonify(error_messages[2]), 205
 
     # Get device information dictionary and pull route to device
     # dir is route to the device, the value in the dict
@@ -132,13 +132,13 @@ def send_data():
                 json=output_dictionary)
         except requests.exceptions.ConnectionError:
             logging.warning(error_messages[3])
-            return jsonify(error_messages[3]), 500
+            return jsonify(error_messages[3]), 210
 
         logging.warning(output_dictionary)
         # Turn responses into a dictionary
         responses[SN] = r.json()
 
-    return jsonify(responses)
+    return jsonify(responses), 200
 
 
 @app.route("/api/send_device_info", methods=["GET"])
@@ -147,7 +147,7 @@ def send_device_info():
     # Set path to /Volumes for mac, will be different for PC
     # dir = '/Volumes/'
 
-    dir = os.getcwd() + '/Test_BIN/'
+    dir = os.getcwd() + '/Test'
     # Setup up device_data output dictionary
     device_data = {
         'Players': [],

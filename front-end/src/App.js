@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Home from './home';
 import Devices from './Devices';
+import ManageDevices from './manageDevices'
 import Paper from '@material-ui/core/Paper';
 import { styles, theme } from './styling'
 import { MuiThemeProvider} from '@material-ui/core/styles';
@@ -11,12 +12,18 @@ class App extends Component {
     state = {
         homeView: true,
         devicesView: false,
-        dashrData: []
     };
 
     changeView = () => {
         this.setState({
-            homeView: false
+            homeView: false,
+            devicesView: true
+        })
+    };
+
+    changeToVerView = () => {
+        this.setState({
+            devicesView: false
         })
     };
 
@@ -29,9 +36,35 @@ class App extends Component {
         })
     };
 
+    views = () => {
+        if ((this.state.homeView===true) && (this.state.devicesView===false)) {
+            return (<Home
+                view={this.changeView}
+                data={this.getDashrData}/>)
+        } else if ((this.state.homeView===false) && (this.state.devicesView===true)) {
+            return (<Devices
+                data={this.state.dashrData}
+                players={this.state.players}
+                mountPoints={this.state.mountPoints}
+                verificationData={this.verificationData}
+                view1 = {this.changeToVerView}/>)
+        } else {
+            return(<ManageDevices
+                verData={this.state.verData}/>)
+        }
+    };
+
+
+    verificationData = (resp) => {
+        this.setState({
+            verData: resp.data
+        })
+    };
+
 
 
   render() {
+      console.log(this.state)
     return (
         <MuiThemeProvider theme={theme}>
             <div style={styles.backgroundStyle}>
@@ -39,15 +72,8 @@ class App extends Component {
                     Welcome to the client application for the DASHR
                 </div>
                 <Paper style={styles.paperStyle}>
-                {
-                    (this.state.homeView)
-                        ? <Home view={this.changeView}
-                              data={this.getDashrData}/>
-                        : <Devices data={this.state.dashrData}
-                                   players={this.state.players}
-                                   mountPoints={this.state.mountPoints}
-                                   />
-                }
+                    {this.views()}
+
                 </Paper>
 
             </div>

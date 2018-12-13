@@ -13,12 +13,15 @@ class Home extends Component {
 
 
     connectDevices = () => {
-        let get_connectDevices = axios.get('http://vcm-7335.vm.duke.edu:5002/api/send_device_info');
+        let get_connectDevices = axios.get('http://vcm-7335.vm.duke.edu:5005/api/send_device_info');
         get_connectDevices.then( (response) => {
             this.props.data(response);
             if (response.data.status > 300) {
                 console.log("Issue initializing device");
                 this.setState({'errorMessageOpen': true})
+            }
+            else if (response.status === 250) {
+                console.log("No devices connected")
             }
             else {
                 this.props.view()

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { styles } from './styling'
 
-class Devices extends Component {
+class ManageDevices extends Component {
 
     render(){
         console.log(this.props.data)
@@ -18,4 +18,4 @@ class Devices extends Component {
 }
 
 
-export default Devices
+export default ManageDevices

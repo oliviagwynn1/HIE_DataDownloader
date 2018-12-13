@@ -202,7 +202,6 @@ const styles = theme => ({
 
 
 
-
 var devicesConnected = ["a","x","list1"];
 var dataList = [];
 
@@ -221,7 +220,8 @@ class DeviceTable extends React.Component {
         selected: [],
         ids: dataList,
         page: 0,
-        rowsPerPage: 5
+        rowsPerPage: 5,
+        ids1: this.props.players,
 
     };
 
@@ -281,6 +281,8 @@ class DeviceTable extends React.Component {
         const { classes } = this.props;
         const { ids, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, ids.length - page * rowsPerPage);
+
+        console.log(this.state.ids1)
 
         return (
             <Paper className={classes.root}>

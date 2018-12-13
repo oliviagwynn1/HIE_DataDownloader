@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Home from './home';
-import Devices from './manageDevices';
+import Devices from './Devices';
 import Paper from '@material-ui/core/Paper';
 import { styles, theme } from './styling'
 import { MuiThemeProvider} from '@material-ui/core/styles';

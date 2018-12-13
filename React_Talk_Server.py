@@ -144,34 +144,39 @@ def send_data():
 def send_device_info():
 
     # Set path to /Volumes for mac, will be different for PC
-    dir = '/Volumes/'
+    # dir = '/Volumes/'
     # dir = '/Users/clarkbulleit/Desktop/Test/'
 
     # Setup up device_data output dictionary
+    # device_data = {
+    #     'Players': [],
+    #     'Mount_Points': [],
+    #     'Num_Files': [],
+    # }
+    #
+    # # Only get directory names in the first layer
+    # volumes = []
+    # for root, dirs, files in os.walk(dir):
+    #     volumes.extend(dirs)
+    #     break
+    #
+    # # Cycle through devices mounted in Volumes
+    # for volume in volumes:
+    #     if volume != 'Macintosh HD':
+    #         path = dir + volume
+    #         filenames = get_file_names(path)
+    #         num_files = len(filenames)
+    #         sn = get_serial_numbers(filenames[-1])
+    #
+    #         # Put information into dictionary
+    #         device_data['Players'].append(sn)
+    #         device_data['Mount_Points'].append(path)
+    #         device_data['Num_Files'].append(num_files)
     device_data = {
-        'Players': [],
-        'Mount_Points': [],
-        'Num_Files': [],
+        'Players': ['261758686', '261813717'],
+        'Mount_Points': ['/Volumes/MV1', '/Volumes/MV1 1'],
+        'Num_Files': [609, 14],
     }
-
-    # Only get directory names in the first layer
-    volumes = []
-    for root, dirs, files in os.walk(dir):
-        volumes.extend(dirs)
-        break
-
-    # Cycle through devices mounted in Volumes
-    for volume in volumes:
-        if volume != 'Macintosh HD':
-            path = dir + volume
-            filenames = get_file_names(path)
-            num_files = len(filenames)
-            sn = get_serial_numbers(filenames[-1])
-
-            # Put information into dictionary
-            device_data['Players'].append(sn)
-            device_data['Mount_Points'].append(path)
-            device_data['Num_Files'].append(num_files)
 
     return jsonify(device_data)
 

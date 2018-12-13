@@ -145,9 +145,10 @@ def send_data():
 def send_device_info():
 
     # Set path to /Volumes for mac, will be different for PC
-    # dir = '/Volumes/'
+    dir = '/Volumes/'
 
-    dir = os.getcwd() + '/Test'
+    # dir = os.getcwd() + '/Test/'
+    response = 250
     # Setup up device_data output dictionary
     device_data = {
         'Players': [],
@@ -167,14 +168,26 @@ def send_device_info():
             path = dir + volume
             filenames = get_file_names(path)
             num_files = len(filenames)
-            sn = get_serial_numbers(filenames[-1])
+            logging.warning(filenames)
+
+            # Make sure function doesnt break if no .BIN files are found
+            if not filenames:
+                response = 250
+                break
+
+            sn = get_serial_numbers(filenames[0])
 
             # Put information into dictionary
             device_data['Players'].append(sn)
             device_data['Mount_Points'].append(path)
             device_data['Num_Files'].append(num_files)
+            response = 200
 
-    return jsonify(device_data)
+    if response == 200:
+        return jsonify(device_data)
+    elif response == 250:
+        return jsonify({"message":
+                        "No devices were found"}), 250
 
 
 if __name__ == "__main__":

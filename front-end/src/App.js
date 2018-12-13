@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Home from './home';
+import Devices from './Devices';
 import { MuiThemeProvider} from '@material-ui/core/styles';
 
 var styles = {
@@ -32,6 +33,7 @@ class App extends Component {
                 Welcome to the client application for the DASHR
                 </div>
                 <Home/>
+                <Devices/>
             </div>
         </MuiThemeProvider>
     );

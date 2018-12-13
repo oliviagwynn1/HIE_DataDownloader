@@ -211,12 +211,24 @@ class DeviceTable extends React.Component {
         let Players = this.state.selected.map(i => this.props.players[i]);
         let Mount_Points = this.state.selected.map(i => this.props.mountPoints[i]);
 
-        axios.post('http://vcm-7335.vm.duke.edu:5002/api/send_data',
+        axios.post('http://vcm-7335.vm.duke.edu:5005/api/send_data',
             {"Players":Players, "Mount_Points":Mount_Points})
             .then(res => {
-                console.log(res);
-                console.log(res.data);
+                this.props.verificationData(res)
+                this.props.view1()
+                if (res.status === 205) {
+                    console.log("this is an error with the local server: check server log at Main_Log.txt")
+                }
+                if (res.status === 210) {
+                    console.log("this is an error with the remote server: check connection to database")
+                }
+
+
             })
+            .catch( (error) => {
+                console.log("unknown error: restart application")
+        })
+
 };
 
 
@@ -283,7 +295,6 @@ class DeviceTable extends React.Component {
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, ids.length - page * rowsPerPage);
 
         console.log(this.state.ids);
-
         return (
             <Paper className={classes.root}>
                 <DeviceTableToolbar numSelected={selected.length} downloadClick={this.devicesWanted}/>

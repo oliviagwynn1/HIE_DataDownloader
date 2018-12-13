@@ -1,6 +1,9 @@
 import pymongo
 from pymongo.errors import DuplicateKeyError
 from flask import Flask, jsonify, request
+
+from check_hash_server import check_hash_server
+from search_db import searchdb
 import logging
 
 app = Flask(__name__)
@@ -20,22 +23,20 @@ REQ_KEYS = [
 ]
 
 errormess = {
-    0: {"message": "Missing key with ID"},
-    1: {"message": "Missing key with session_data"},
-    2: {"message": "Extra unknown key in data"}
+    0: {"message": "Structure of new data not correct"},
+    1: {"message": "Data not received correctly"}
 
 }
 
 
-def validate_keys(A):
+def validate_keys(A: object) -> object:
     # check if session data exists
     if 'session_data' not in A.keys():
         raise KeyError
         logging.warning("Session_data key does not exist")
     # check type of session data
     else:
-        if type(A["session_data"]) is not type({"hi": 5, "hey": 6}):
-            print("nikki")
+        if not isinstance(A["session_data"],dict):
             raise TypeError
             logging.warning("Session_data is not a dictionary")
         # if it is a dict, check the keys in it
@@ -50,7 +51,6 @@ def validate_keys(A):
                     D = C[key]
                     for x in reqkeys:
                         if x not in D.keys():
-                            print(x)
                             logging.warning("Missing %s", x)
                             raise KeyError
 
@@ -59,24 +59,12 @@ def validate_keys(A):
         raise KeyError
     # check type of id data
     else:
-        if type(A["_id"]) is not type("hey"):
+        if not isinstance(A["_id"],str):
             logging.warning("ID not a string")
             raise KeyError
 
     if len(A) is not 2:
         raise KeyError
-
-    return 1
-
-    # check type of session_data
-    # id_t=type(newdict["_id"])
-    # data_t=type(newdict["session_data"])
-
-    # check type of _id
-    # if id_t is not str:
-    #     raise KeyError("ID given is not a string")
-    # if data_t is not dict:
-    #     raise KeyError("Session data given is not a dictionary")
 
 
 @app.route("/api/luck/add_data", methods=["POST"])
@@ -87,13 +75,30 @@ def add_data():
     mycol = mydb["Players"]
 
     # validate it has the right keys
+    try:
+        validate_keys(newdict)
+    except KeyError:
+        logging.warning("Structure of data being added is wrong")
+        return jsonify(errormess[0])
+    except TypeError:
+        logging.warning("Structure of data being added is wrong")
+        return jsonify(errormess[0])
 
+    # validate that data was received
+    try:
+        check_hash_server(newdict)
+    except ValueError:
+        logging.warning("Data not received correctly")
+        return jsonify(errormess[1])
+
+    # insert into database
     try:
         mycol.insert_one(newdict)
+        hh = newdict["_id"]
         print('added data to new key')
-        kk = 'added data to new key'
+        logging.info('added data to new player %s', hh)
     except DuplicateKeyError:
-        print('key already exists ')
+        logging.info('key already exists')
 
         # Grab new session dates
         session_dates = []
@@ -109,10 +114,14 @@ def add_data():
 
             newvalues = {"$set": {"session_data." + date: newdata}}
             mycol.update_one(myquery, newvalues)
-            print('added data to existing key')
-            kk = 'added data to existing key'
+            print('added data to existing player', newkey)
+            logging.info('added data to existing player %s', newkey)
 
-    return jsonify(kk)
+    # check if added right afterwards
+    # returns 1 if it does
+    a = searchdb(newdict, mycol)
+
+    return jsonify(a)
 
 
 if __name__ == "__main__":

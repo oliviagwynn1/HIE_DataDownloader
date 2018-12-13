@@ -18,12 +18,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import axios from 'axios';
 
-let counter = 0;
-function createData(name) {
-    counter += 1;
-    return { id: counter, name};
-}
 
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -57,7 +53,6 @@ class DeviceTableHead extends Component {
     createSortHandler = property => event => {
         this.props.onRequestSort(event, property);
     };
-
 
     render() {
         const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
@@ -137,9 +132,8 @@ const toolbarStyles = theme => ({
 });
 
 
-
 let DeviceTableToolbar = props => {
-    const { numSelected, classes } = props;
+    const { numSelected, classes, downloadClick } = props;
 
     return (
         <Toolbar
@@ -164,7 +158,7 @@ let DeviceTableToolbar = props => {
                     <Tooltip title="Download">
                         <IconButton aria-label="VerticalAlignBottom">
                             <VerticalAlignBottomIcon
-                                // onClick={this.devicesWanted}
+                                onClick={downloadClick}
                             />
                         </IconButton>
                     </Tooltip>
@@ -183,6 +177,7 @@ let DeviceTableToolbar = props => {
 DeviceTableToolbar.propTypes = {
     classes: PropTypes.object.isRequired,
     numSelected: PropTypes.number.isRequired,
+    downloadClick: PropTypes.func.isRequired,
 };
 
 DeviceTableToolbar = withStyles(toolbarStyles)(DeviceTableToolbar);
@@ -201,30 +196,35 @@ const styles = theme => ({
 });
 
 
-
-var devicesConnected = ["a","x","list1"];
-var dataList = [];
-
-for (var i in devicesConnected) {
-    dataList.push(createData(devicesConnected[i]))
-}
-
-console.log(dataList);
-
 class DeviceTable extends React.Component {
-
 
     state = {
         order: 'asc',
         orderBy: 'name',
         selected: [],
-        ids: dataList,
+        ids: this.props.players.map(this.createData),
         page: 0,
         rowsPerPage: 5,
-        ids1: this.props.players,
-
     };
 
+    devicesWanted = () => {
+        let Players = this.state.selected.map(i => this.props.players[i]);
+        let Mount_Points = this.state.selected.map(i => this.props.mountPoints[i]);
+
+        axios.post('http://vcm-7335.vm.duke.edu:5002/api/send_data',
+            {"Players":Players, "Mount_Points":Mount_Points})
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+            })
+};
+
+
+//PROBLEM WITH COUNTER
+    createData(name, id) {
+        // this.state.counter += 1;
+        return {id: id, name: name};
+    }
 
     handleRequestSort = (event, property) => {
         const orderBy = property;
@@ -282,11 +282,11 @@ class DeviceTable extends React.Component {
         const { ids, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, ids.length - page * rowsPerPage);
 
-        console.log(this.state.ids1)
+        console.log(this.state.ids);
 
         return (
             <Paper className={classes.root}>
-                <DeviceTableToolbar numSelected={selected.length} />
+                <DeviceTableToolbar numSelected={selected.length} downloadClick={this.devicesWanted}/>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
                         <DeviceTableHead

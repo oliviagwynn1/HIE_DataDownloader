@@ -7,8 +7,6 @@ import { styles, theme } from './styling'
 import { MuiThemeProvider} from '@material-ui/core/styles';
 
 
-
-
 class App extends Component {
     state = {
         homeView: true,
@@ -24,12 +22,13 @@ class App extends Component {
 
     getDashrData = (resp) => {
         this.setState({
-            dashrData: [resp],
-            players: [resp.data.Players],
-            mountPoints: [resp.data.Mount_Points],
-            numFiles: [resp.data.Num_Files],
+            dashrData: resp,
+            players: resp.data.Players,
+            mountPoints: resp.data.Mount_Points,
+            numFiles: resp.data.Num_Files,
         })
     };
+
 
 
   render() {
@@ -44,7 +43,10 @@ class App extends Component {
                     (this.state.homeView)
                         ? <Home view={this.changeView}
                               data={this.getDashrData}/>
-                        : <Devices data={this.state.dashrData} players={this.state.players}/>
+                        : <Devices data={this.state.dashrData}
+                                   players={this.state.players}
+                                   mountPoints={this.state.mountPoints}
+                                   />
                 }
                 </Paper>
 

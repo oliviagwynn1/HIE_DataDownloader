@@ -34,7 +34,7 @@ def validate_keys(A):
         logging.warning("Session_data key does not exist")
     # check type of session data
     else:
-        if type(A["session_data"]) is not type({"hi":5,"hey":6}):
+        if type(A["session_data"]) is not type({"hi": 5, "hey": 6}):
             print("nikki")
             raise TypeError
             logging.warning("Session_data is not a dictionary")
@@ -51,7 +51,7 @@ def validate_keys(A):
                     for x in reqkeys:
                         if x not in D.keys():
                             print(x)
-                            logging.warning("Missing %s",x)
+                            logging.warning("Missing %s", x)
                             raise KeyError
 
     # check if id exists

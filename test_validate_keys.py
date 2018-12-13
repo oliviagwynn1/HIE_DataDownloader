@@ -101,6 +101,7 @@ def test_sess_not_dict():
     with pytest.raises(TypeError):
         validate_keys(newdict)
 
+
 def test_sess_not_dict2():
     newdict = {'_id': "6",
                'session_data':

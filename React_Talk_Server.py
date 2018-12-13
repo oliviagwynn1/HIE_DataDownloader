@@ -7,6 +7,7 @@ from checksumdir import dirhash
 import requests
 from get_file_names import get_file_names
 from encode_for_json import encode_for_json
+from get_serial_numbers import get_serial_numbers
 app = Flask(__name__)
 CORS(app)
 
@@ -111,12 +112,34 @@ def send_data():
 @app.route("/api/send_device_info", methods=["GET"])
 def send_device_info():
 
+    # Set path to /Volumes for mac, will be different for PC
+    dir = '/Volumes/'
+
+    # Setup up device_data output dictionary
     device_data = {
-        'Players': ['261758686', '261813717'],
-        'Mount_Points': ['/Users/clarkbulleit/Desktop/Test/SN1',
-                         '/Users/clarkbulleit/Desktop/Test/SN2'],
-        'Num_Files': [600, 50],
+        'Players': [],
+        'Mount_Points': [],
+        'Num_Files': [],
     }
+
+    # Only get directory names in the first layer
+    volumes = []
+    for root, dirs, files in os.walk(dir):
+        volumes.extend(dirs)
+        break
+
+    # Cylce through devices mounted in Volumes
+    for volume in volumes:
+        if volume != 'Macintosh HD':
+            path = dir + volume
+            filenames = get_file_names(path)
+            num_files = len(filenames)
+            sn = get_serial_numbers(filenames[-1])
+
+            # Put information into dictionary
+            device_data['Players'].append(sn)
+            device_data['Mount_Points'].append(path)
+            device_data['Num_Files'].append(num_files)
 
     return jsonify(device_data)
 

@@ -207,18 +207,17 @@ class DeviceTable extends React.Component {
 
     state = {
         order: 'asc',
-        orderBy: 'name',
+        orderBy: 'id',
         selected: [],
-        ver: this.props.verData.map(this.createData),
+        ver: this.createData(this.props.verData),
         page: 0,
         rowsPerPage: 5,
     };
 
-        createData(name, id) {
-            let name_list = Object.keys(name);
-            let ver_list = Object.entries(name);
-            return {id: id, name: name_list, ver: ver_list};
-        }
+    createData(ver_data) {
+        return Object.entries(ver_data).map(e => ({id: e[0], ver: e[1]}));
+    }
+
 
 
     devicesDeleted = () => {
@@ -247,7 +246,7 @@ class DeviceTable extends React.Component {
 
     handleSelectAllClick = event => {
         if (event.target.checked) {
-            this.setState(state => ({ selected: state.ids.map(n => n.id) }));
+            this.setState(state => ({ selected: state.ver.map(n => n.id) }));
             return;
         }
         this.setState({ selected: [] });
@@ -303,8 +302,8 @@ class DeviceTable extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { ids, order, orderBy, selected, rowsPerPage, page } = this.state;
-        const emptyRows = rowsPerPage - Math.min(rowsPerPage, ids.length - page * rowsPerPage);
+        const { ver, order, orderBy, selected, rowsPerPage, page } = this.state;
+        const emptyRows = rowsPerPage - Math.min(rowsPerPage, ver.length - page * rowsPerPage);
 
         // const { classes } = this.props;
         // var good_feedback_Keys = Object.keys(this.state.feedback).filter(k => this.state.feedback[k]);
@@ -318,8 +317,6 @@ class DeviceTable extends React.Component {
             },
         });
 
-        console.log(this.state.ids);
-
         return (
             <Paper className={classes.root}>
                 <DeviceTableToolbar numSelected={selected.length} deleteClick={this.devicesDeleted}/>
@@ -331,11 +328,11 @@ class DeviceTable extends React.Component {
                             orderBy={orderBy}
                             onSelectAllClick={this.handleSelectAllClick}
                             onRequestSort={this.handleRequestSort}
-                            rowCount={ids.length}
+                            rowCount={ver.length}
                         />
                         <TableBody>
                             <MuiThemeProvider theme={theme}>
-                            {stableSort(ids, getSorting(order, orderBy))
+                            {stableSort(ver, getSorting(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(n => {
                                     const isSelected = this.isSelected(n.id);
@@ -353,7 +350,7 @@ class DeviceTable extends React.Component {
                                                 <Checkbox checked={isSelected} />
                                             </TableCell>
                                             <TableCell component="th" scope="row" padding="none">
-                                                {n.name}
+                                                {n.id}
                                             </TableCell>
                                             <TableCell component="th" scope="row" padding="none">
                                                 {(n.ver) ? <CheckCircleIcon color="primary"/> : <ErrorIcon color="secondary"/>}
@@ -375,7 +372,7 @@ class DeviceTable extends React.Component {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25, 50]}
                     component="div"
-                    count={ids.length}
+                    count={ver.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     backIconButtonProps={{

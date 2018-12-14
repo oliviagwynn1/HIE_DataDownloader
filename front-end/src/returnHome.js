@@ -24,8 +24,6 @@ class ReturnToHome extends Component {
                     Home
                 </div>
             </div>
-
-
         )
     }
 }

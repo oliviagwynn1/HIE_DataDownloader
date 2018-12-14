@@ -94,7 +94,7 @@ def add_data():
     """
     newdict = request.get_json()
     myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-    mydb = myclient["practice_Dec11"]
+    mydb = myclient["Luck_Data"]
     mycol = mydb["Players"]
 
     # validate it has the right keys

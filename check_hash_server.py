@@ -3,6 +3,15 @@ import hashlib
 
 
 def json_encode(bytes):
+    """Saves hash (in bytes) as encoded JSON
+
+    Args:
+        bytes: hash from dictionary of data
+
+    Returns:
+        data_str (str): decoded hash from new data dict
+
+    """
     data_bytes = b64encode(bytes)
     data_str = data_bytes.decode('utf-8')
 
@@ -10,20 +19,14 @@ def json_encode(bytes):
 
 
 def check_hash_server(newdict):
-    # get hash from dict
-    # newid=newdict["_id"]
+    """
+    Confirms new hash matches hash sent in newdict
 
-    # dict_hash=newdict
-    #
-    # #get data from dict
-    #
-    # #decode data from dict
-    # data_dec=b64decode(dict_data)
-    #
-    # #get hash from decoded data
-    # hasher=hashlib.md5()
-    # hasher.update(data_dec)
+    Args:
+        newdict: Dictionary of data from device to be uploaded
 
+
+    """
     # Create list of time keys Sent:
     session_times = []
     session_data = newdict['session_data']

@@ -2,7 +2,6 @@ import pytest
 from mongoserver_Dec11 import validate_keys
 
 
-#
 @pytest.mark.parametrize("newdict,expected", [
     # correct keys
     ({'_id': '5',
@@ -25,9 +24,6 @@ from mongoserver_Dec11 import validate_keys
 
 ])
 def test_validate_parametrize(newdict, expected):
-    """test_tachy_paramaterize is called with all input
-    and output specified in decorator above
-    """
     assert validate_keys(newdict) is None
 
 
@@ -62,24 +58,6 @@ def test_extra_id():
 
     with pytest.raises(KeyError):
         validate_keys(newdict)
-
-
-# def test_id_not_str():
-#     newdict2 = \
-#         {'_id': 6,
-#          'session_data':
-#              {'date':
-#                   {'LBIN1':
-#                        {'data': 'jalkaf',
-#                         'hash': 'akld',
-#                         'mod_time': 'datetime'
-#                         }
-#                    }
-#               }
-#          }
-#
-#     with pytest.raises(KeyError):
-#         validate_keys(newdict2)
 
 
 def test_sess_not_dict():

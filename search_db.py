@@ -7,6 +7,20 @@ logging.basicConfig(filename="Dec11_logging.txt",
 
 
 def searchdb(s_dict, mycol):
+    """
+    Confirms new data is in the db
+
+    Args:
+        s_dict: New diction of data
+        mycol: Collection from database you are adding data to
+
+    Returns:
+        bool: True if database contains the new data
+
+    Raises:
+        KeyError: Key is missing and cannot access data
+
+    """
     # myclient = pymongo.MongoClient(client)
     # mydb = myclient[db]
     # mycol = mydb[col]

@@ -8,11 +8,7 @@ import logging
 
 app = Flask(__name__)
 
-# features to add:
-# required keys
-# make multiple requests for more than 1 player
-
-logging.basicConfig(filename="Dec11_logging.txt",
+logging.basicConfig(filename="database_server_log.txt",
                     format='%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     level=logging.DEBUG)
@@ -23,7 +19,8 @@ REQ_KEYS = [
 ]
 
 errormess = {
-    0: {"message": "Structure of new data not correct (missing key or extra key)"},
+    0: {"message": "Structure of new data "
+                   "not correct (missing key or extra key)"},
     1: {"message": "Data not received correctly, hashes don't match"},
     2: {"message": "Type of data for key is not correct"},
     3: {"message": "Data received correctly but not added to "
@@ -34,6 +31,18 @@ errormess = {
 
 # check the structure is correct
 def validate_keys(A: object) -> object:
+    """
+    Validates key, structure, and data in A
+
+    Args:
+        A: dictionary of new data sent to server
+
+    Raises:
+        KeyError: Key in dictionary does not match desired format of db
+        TypeError: Type of data in key does not match desired format of db
+
+
+    """
     # check if session data exists
     if 'session_data' not in A.keys():
         raise KeyError
@@ -75,6 +84,14 @@ def validate_keys(A: object) -> object:
 
 @app.route("/api/luck/add_data", methods=["POST"])
 def add_data():
+    """
+    Adds data from dict to local DB from post request
+
+    Returns:
+        a (bool): If new data was correctly added
+                to db and can be deleted (True = can delete)
+
+    """
     newdict = request.get_json()
     myclient = pymongo.MongoClient("mongodb://localhost:27017/")
     mydb = myclient["practice_Dec11"]
@@ -85,7 +102,7 @@ def add_data():
         validate_keys(newdict)
     except KeyError:
         logging.warning("Structure of data being added is wrong")
-        ans= False
+        ans = False
         return jsonify(ans)
     except TypeError:
         logging.warning("Structure of data being added is wrong")
@@ -94,20 +111,24 @@ def add_data():
 
     # validate that data was received
     try:
+        # Checksum of new hash and given hash
         check_hash_server(newdict)
         logging.info("Data received correctly")
     except ValueError:
+        # Warning if hash not equal, data received in correct
         logging.warning("Data not received correctly")
         ans = False
         return jsonify(ans)
 
-    # insert into database
+    # Insert into database
     try:
+        # Add data to new player / ID
         mycol.insert_one(newdict)
         hh = newdict["_id"]
         print('added data to new key')
         logging.info('added data to new player %s', hh)
     except DuplicateKeyError:
+        # Add data to existing player / ID
         logging.info("Attempting to add data to existing player")
 
         # Grab new session dates
@@ -127,8 +148,8 @@ def add_data():
             print('Added data to existing player', newkey)
             logging.info('Added data to existing player %s', newkey)
 
-    # check if added right afterwards
-    # returns 1 if it does
+    # Check if data was added correctly to the database
+    # Return True if added and it can be deleted
     try:
         a = searchdb(newdict, mycol)
         logging.info("Data added correctly to database, "

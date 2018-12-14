@@ -19,6 +19,7 @@ import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import axios from 'axios';
+import ErrorMessage from "./error";
 
 
 function desc(a, b, orderBy) {
@@ -205,29 +206,39 @@ class DeviceTable extends React.Component {
         ids: this.props.players.map(this.createData),
         page: 0,
         rowsPerPage: 5,
+        'errorMessage1': false,
+        'errorMessage2': false,
+        'errorMessage3': false,
     };
 
     devicesWanted = () => {
         let Players = this.state.selected.map(i => this.props.players[i]);
         let Mount_Points = this.state.selected.map(i => this.props.mountPoints[i]);
 
-        axios.post('http://vcm-7335.vm.duke.edu:5005/api/send_data',
+        axios.post('http://127.0.0.1:5000/205',
             {"Players":Players, "Mount_Points":Mount_Points})
             .then(res => {
-                this.props.verificationData(res)
-                this.props.view()
+
                 if (res.status === 205) {
-                    console.log("this is an error with the local server: check server log at Main_Log.txt")
+                    console.log("problem with local server")
+                    this.setState({'errorMessage1': true})
                 }
-                if (res.status === 210) {
-                    console.log("this is an error with the remote server: check connection to database")
+                else if (res.status === 210) {
+                    console.log("problem with remote server")
+                    this.setState({'errorMessage2': true})
+                }
+                else {
+                    this.props.verificationData(res);
+                    this.props.view()
+
                 }
 
 
             })
             .catch( (error) => {
-                console.log("unknown error: restart application")
-        })
+                console.log("unknown error")
+                this.setState({'errorMessage3': true })
+            })
 
 };
 
@@ -354,6 +365,24 @@ class DeviceTable extends React.Component {
                     }}
                     onChangePage={this.handleChangePage}
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                />
+                <ErrorMessage
+                    open={this.state.errorMessage1}
+                    title={"An error occurred while accessing the local server"}
+                    content={"Please refer to the server log at Main_Log.txt"}
+                    close={() => this.setState({errorMessage1: false})}
+                />
+                <ErrorMessage style={styles.errorMessageStyle}
+                    open={this.state.errorMessage2}
+                    title={"An error occurred while accessing the remote server and/or database"}
+                    content={"Please refer to the server log at database_server_log.txt"}
+                    close={() => this.setState({errorMessage2: false})}
+                />
+                 <ErrorMessage style={styles.errorMessageStyle}
+                    open={this.state.errorMessage3}
+                    title={"Unknown Error"}
+                    content={"Please check all server and device connections"}
+                    close={() => this.setState({errorMessage3: false})}
                 />
             </Paper>
         );

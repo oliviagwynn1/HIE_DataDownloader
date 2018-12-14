@@ -13,23 +13,25 @@ export const theme = createMuiTheme({
       'sans-serif',
     ].join(','),
   },
+
 });
 
 
 export var styles = {
     "backgroundStyle":{
-        "text-align": "center",
         "height": "100vh",
         "backgroundColor":"#344955"
 
     },
     "headerStyle": {
+        "text-align": "center",
         "font-size": "2vh",
         "color": "white",
         "padding": "2.5vh",
         "backgroundColor":"#232F34"
     },
     "paperStyle": {
+        "text-align": "center",
         "height": "75vh",
         "width": "75vh",
         "marginTop": "5vh",
@@ -38,13 +40,25 @@ export var styles = {
 
     },
     "viewStyle": {
-        "marginTop": "20vh",
-        "font-size": "2vh",
+        "text-align": "center",
     },
     "connectButtonStyle": {
+        "text-align": "center",
         "font-size": "3vh",
-        "backgroundColor":"#03DAC5"
+        "backgroundColor":"#03DAC5",
+        "marginTop": "20vh"
 
+    },
+    "backIconStyle": {
+        "font-size": "3vh",
+        "color":"#03DAC5",
+        "marginLeft": "1vh",
+    },
+
+    "backIconTextStyle": {
+        "font-size": "2vh",
+        "color":"#232F34",
+        "marginLeft": "1vh",
     }
 
 }

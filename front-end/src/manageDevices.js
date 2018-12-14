@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { styles } from './styling'
+import { styles } from './styling';
 
 class ManageDevices extends Component {
 
@@ -7,9 +7,12 @@ class ManageDevices extends Component {
         console.log(this.props.data)
         console.log(this.props.players)
         return(
-            <div style={styles.viewStyle}>
+            <div>
+                <div style={styles.viewStyle}>
+
                 this is where Olivia's table will go! wooooo
 
+                </div>
             </div>
         )
     }

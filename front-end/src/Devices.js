@@ -215,7 +215,7 @@ class DeviceTable extends React.Component {
             {"Players":Players, "Mount_Points":Mount_Points})
             .then(res => {
                 this.props.verificationData(res)
-                this.props.view1()
+                this.props.view()
                 if (res.status === 205) {
                     console.log("this is an error with the local server: check server log at Main_Log.txt")
                 }

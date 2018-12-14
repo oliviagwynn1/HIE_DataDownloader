@@ -6,6 +6,7 @@ import ManageDevices from './manageDevices'
 import Paper from '@material-ui/core/Paper';
 import { styles, theme } from './styling'
 import { MuiThemeProvider} from '@material-ui/core/styles';
+import ReturnToHome from './returnHome';
 
 
 class App extends Component {
@@ -14,7 +15,7 @@ class App extends Component {
         devicesView: false,
     };
 
-    changeView = () => {
+    changetoDeviceView = () => {
         this.setState({
             homeView: false,
             devicesView: true
@@ -36,10 +37,23 @@ class App extends Component {
         })
     };
 
+    verificationData = (resp) => {
+        this.setState({
+            verData: resp.data
+        })
+    };
+
+    returnHomeView = () => {
+        this.setState({
+            homeView: true,
+            devicesView: false
+        })
+    };
+
     views = () => {
         if ((this.state.homeView===true) && (this.state.devicesView===false)) {
             return (<Home
-                view={this.changeView}
+                view={this.changetoDeviceView}
                 data={this.getDashrData}/>)
         } else if ((this.state.homeView===false) && (this.state.devicesView===true)) {
             return (<Devices
@@ -47,35 +61,34 @@ class App extends Component {
                 players={this.state.players}
                 mountPoints={this.state.mountPoints}
                 verificationData={this.verificationData}
-                view1 = {this.changeToVerView}/>)
+                view = {this.changeToVerView}
+                returnHome = {this.returnHomeView}/>)
         } else {
             return(<ManageDevices
-                verData={this.state.verData}/>)
+                verData={this.state.verData}
+                reutnHome = {this.returnHomeView} />)
         }
     };
 
 
-    verificationData = (resp) => {
-        this.setState({
-            verData: resp.data
-        })
-    };
-
-
-
   render() {
-      console.log(this.state)
     return (
         <MuiThemeProvider theme={theme}>
             <div style={styles.backgroundStyle}>
                 <div style={styles.headerStyle}>
                     Welcome to the client application for the DASHR
                 </div>
-                <Paper style={styles.paperStyle}>
-                    {this.views()}
 
-                </Paper>
+                    {
+                        (this.state.homeView===false) ? <ReturnToHome returnHome = {this.returnHomeView}/> : <div/>
+                    }
 
+
+                <div style={styles.viewStyle}>
+                    <Paper style={styles.paperStyle}>
+                        {this.views()}
+                    </Paper>
+                </div>
             </div>
         </MuiThemeProvider>
     );

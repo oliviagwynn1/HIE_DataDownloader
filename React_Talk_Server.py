@@ -30,14 +30,41 @@ logging.basicConfig(filename="Main_Log.txt",
 @app.route("/api/send_data", methods=["POST"])
 def send_data():
     """
-    Receives dictionary with the form
-    device_data = {
+    POST route that receives dictionary with the form
+
+    device_dict = {
         'Players': ['261758686', '261813717'],
         'Mount_Points': ['/Volumes/MV1', '/Volumes/MV1 1'],
-        'Num_Files': [609, 14],
     }
+
     That contains the serial number and the matched location
-    :return:
+    The function will output a dictionary in the form
+
+    output_dictionary = {
+        '_id': '12', {
+            'session_data': {
+                'date1': {
+                    'LBIN1': {
+                        'data': '8903hjfsisdfs',
+                        'hash': '9012ej.df',
+                        'mod_time': 'Feb127PM'}},
+                'date2': {
+                    'LBIN': {
+                        'data': 'dajklfdajkl',
+                        'hash': 'sjf90j3lasd',
+                        'mod_time': 'Feb129PM'
+                        }
+                    }
+                }
+            }
+
+    Args:
+        device_dict (dict): Info for the devices the client
+            wants to download
+
+    Returns:
+        output_dictionary (dict): Info to be sent to the
+            server and saved in the database
     """
 
     # Set up responses dictionary
@@ -143,7 +170,23 @@ def send_data():
 
 @app.route("/api/send_device_info", methods=["GET"])
 def send_device_info():
+    """
+    GET route returns info of connected devices
 
+    Device data is returned in the form:
+
+    device_dict = {
+        'Players': ['261758686', '261813717'],
+        'Mount_Points': ['/Volumes/MV1', '/Volumes/MV1 1'],
+        'Num_Files': [609, 14],
+    }
+
+    Returns:
+        device_data (dict): Info to be sent to the front end with
+            connected device serial numbers, mounting routes, and
+            number of files
+
+    """
     # Set path to /Volumes for mac, will be different for PC
     # dir = '/Volumes/'
 
@@ -194,5 +237,5 @@ if __name__ == "__main__":
 
     # First option is for development
     # Second option is for deployment
-    # app.run(host="127.0.0.1", port=5005)
-    app.run(host="0.0.0.0", port=5005)
+    app.run(host="127.0.0.1", port=5005)
+    # app.run(host="0.0.0.0", port=5005)

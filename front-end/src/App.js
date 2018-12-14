@@ -61,28 +61,29 @@ class App extends Component {
                 players={this.state.players}
                 mountPoints={this.state.mountPoints}
                 verificationData={this.verificationData}
-                view = {this.changeToVerView}
-                returnHome = {this.returnHomeView}/>)
+                view = {this.changeToVerView}/>)
         } else {
             return(<ManageDevices
-                verData={this.state.verData}
-                reutnHome = {this.returnHomeView} />)
+                verData={this.state.verData}/>)
         }
     };
 
 
   render() {
+      console.log(this.state)
     return (
+
         <MuiThemeProvider theme={theme}>
             <div style={styles.backgroundStyle}>
                 <div style={styles.headerStyle}>
                     Welcome to the client application for the DASHR
                 </div>
 
-                    {
-                        (this.state.homeView===false) ? <ReturnToHome returnHome = {this.returnHomeView}/> : <div/>
-                    }
-
+                {
+                    (this.state.homeView===false)
+                        ? <ReturnToHome returnHome = {this.returnHomeView}/>
+                        : <div/>
+                }
 
                 <div style={styles.viewStyle}>
                     <Paper style={styles.paperStyle}>

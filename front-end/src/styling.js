@@ -32,6 +32,7 @@ export var styles = {
     },
     "paperStyle": {
         "text-align": "center",
+        "font-size": "3vh",
         "height": "75vh",
         "width": "75vh",
         "marginTop": "5vh",
@@ -59,6 +60,5 @@ export var styles = {
         "font-size": "2vh",
         "color":"#232F34",
         "marginLeft": "1vh",
-    }
-
+    },
 }

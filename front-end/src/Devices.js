@@ -230,9 +230,7 @@ class DeviceTable extends React.Component {
                 else {
                     this.props.verificationData(res);
                     this.props.view()
-
                 }
-
 
             })
             .catch( (error) => {

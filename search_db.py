@@ -37,4 +37,4 @@ def searchdb(s_dict, mycol):
                                      " don't delete off device", s_key)
                         return False
             except:
-                raise (KeyError)
+                raise KeyError

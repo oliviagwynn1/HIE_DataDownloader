@@ -23,12 +23,16 @@ REQ_KEYS = [
 ]
 
 errormess = {
-    0: {"message": "Structure of new data not correct"},
-    1: {"message": "Data not received correctly"}
+    0: {"message": "Structure of new data not correct (missing key or extra key)"},
+    1: {"message": "Data not received correctly, hashes don't match"},
+    2: {"message": "Type of data for key is not correct"},
+    3: {"message": "Data received correctly but not added to "
+                   "database, do not delete off device"}
 
 }
 
 
+# check the structure is correct
 def validate_keys(A: object) -> object:
     # check if session data exists
     if 'session_data' not in A.keys():
@@ -56,14 +60,16 @@ def validate_keys(A: object) -> object:
 
     # check if id exists
     if '_id' not in A.keys():
+        logging.warning("Data is missing ID as a key")
         raise KeyError
     # check type of id data
     else:
         if not isinstance(A["_id"], str):
             logging.warning("ID not a string")
-            raise KeyError
+            raise TypeError
 
     if len(A) is not 2:
+        logging.warning("Too many keys in the dictionary")
         raise KeyError
 
 
@@ -79,17 +85,21 @@ def add_data():
         validate_keys(newdict)
     except KeyError:
         logging.warning("Structure of data being added is wrong")
-        return jsonify(errormess[0])
+        ans= False
+        return jsonify(ans)
     except TypeError:
         logging.warning("Structure of data being added is wrong")
-        return jsonify(errormess[0])
+        ans = False
+        return jsonify(ans)
 
     # validate that data was received
     try:
         check_hash_server(newdict)
+        logging.info("Data received correctly")
     except ValueError:
         logging.warning("Data not received correctly")
-        return jsonify(errormess[1])
+        ans = False
+        return jsonify(ans)
 
     # insert into database
     try:
@@ -98,7 +108,7 @@ def add_data():
         print('added data to new key')
         logging.info('added data to new player %s', hh)
     except DuplicateKeyError:
-        logging.info('key already exists')
+        logging.info("Attempting to add data to existing player")
 
         # Grab new session dates
         session_dates = []
@@ -114,12 +124,17 @@ def add_data():
 
             newvalues = {"$set": {"session_data." + date: newdata}}
             mycol.update_one(myquery, newvalues)
-            print('added data to existing player', newkey)
-            logging.info('added data to existing player %s', newkey)
+            print('Added data to existing player', newkey)
+            logging.info('Added data to existing player %s', newkey)
 
     # check if added right afterwards
     # returns 1 if it does
-    a = searchdb(newdict, mycol)
+    try:
+        a = searchdb(newdict, mycol)
+        logging.info("Data added correctly to database, "
+                     "you can delete off device")
+    except KeyError:
+        return jsonify(errormess[3])
 
     return jsonify(a)
 

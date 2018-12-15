@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/ArrowBackRounded';
-import { styles, theme } from './styling';
+import { styles } from './styling';
+
 
 class ReturnToHome extends Component {
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Home from './home';
 import Devices from './Devices';
-import ManageDevices from './manageDevices'
+import DeleteDevices from './DeleteDevices'
 import Paper from '@material-ui/core/Paper';
 import { styles, theme } from './styling'
 import { MuiThemeProvider} from '@material-ui/core/styles';
@@ -63,37 +63,36 @@ class App extends Component {
                 verificationData={this.verificationData}
                 view = {this.changeToVerView}/>)
         } else {
-            return(<ManageDevices
+
+            return(<DeleteDevices
                 verData={this.state.verData}/>)
         }
     };
 
 
-  render() {
-      console.log(this.state)
-    return (
+    render() {
+        console.log(this.state)
+        return (
 
-        <MuiThemeProvider theme={theme}>
-            <div style={styles.backgroundStyle}>
-                <div style={styles.headerStyle}>
-                    Welcome to the client application for the DASHR
+            <MuiThemeProvider theme={theme}>
+                <div style={styles.backgroundStyle}>
+                    <div style={styles.headerStyle}>
+                        Welcome to the client application for the DASHR
+                    </div>
+                    {
+                        (this.state.homeView===false)
+                            ? <ReturnToHome returnHome = {this.returnHomeView}/>
+                            : <div/>
+                    }
+                    <div style={styles.viewStyle}>
+                        <Paper style={styles.paperStyle}>
+                            {this.views()}
+                        </Paper>
+                    </div>
                 </div>
-
-                {
-                    (this.state.homeView===false)
-                        ? <ReturnToHome returnHome = {this.returnHomeView}/>
-                        : <div/>
-                }
-
-                <div style={styles.viewStyle}>
-                    <Paper style={styles.paperStyle}>
-                        {this.views()}
-                    </Paper>
-                </div>
-            </div>
-        </MuiThemeProvider>
-    );
-  }
+            </MuiThemeProvider>
+        );
+    }
 }
 
 export default App

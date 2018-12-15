@@ -47,7 +47,7 @@ class Home extends Component {
                     variant="raised"
                     onClick={this.connectDevices}
                     label={"Connect to Devices"}
-                    >
+                >
                     Connect to Devices
                 </Button>
                 <ErrorMessage

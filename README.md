@@ -31,8 +31,48 @@ This server has two routes `GET /api/send_device_info` and `POST /api/send_data`
   `{"message": "No devices were found"})`
   
 ##### `POST /api/send_data`
-  * Route sends retrieves info from a list of connected devices. It expects the following input:
+  * Route downloads data from devices based on the response of the client. It expects the following input:
+   ```sh
+    {
+        'Players': ['261758686', '261813717'],
+        'Mount_Points': ['/Volumes/MV1', '/Volumes/MV1 1'],
+    }
+   ```
+   * The route goes into the given mounting point for each of the Players, downloads the data and then posts the following dictionary to the remote server and database:
+    ```sh
+    {
+        '_id': '261758686', {
+            'session_data': {
+                '2018-10-12': {
+                    'L0': {
+                        'data': '8903hjfsisdfs',
+                        'hash': '9012ej.df',
+                        'mod_time': 'Feb127PM'}},
+                '2018-10-13': {
+                    'L0': {
+                        'data': 'dajklfdajkl',
+                        'hash': 'sjf90j3lasd',
+                        'mod_time': 'Feb129PM'
+                        }
+                    }
+                }
+            }
+   ```
+   * If the dictionary is not in the correct form then the it will return one of the following error messages based on the error and the response integer of 205 which the front end will be able to handle. 
+   ```sh
+   error_messages = {
+        0: {"message": "Post Keys not correct"},
+        1: {"message": "Device dictionary keys are not lists"},
+        2: {"message": "Device dictionary lists are not equal"},
+   ```
    
+   * If the route cannot connect to the remote server or the database then it will return a response of 210 and the following error message:
+   ```sh
+   {"message": "Cannot connect to remote server"}
+   ```
+   * The current route cannot send the full ammount of data to the remote server, the connection keeps getting lost with this amount of data. If this issue is fixed in the future, the code can be fixed in line 157 of React_Talk_Server.py. 
+   
+ 
     
     
   

@@ -19,6 +19,7 @@ import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import axios from 'axios';
+import ErrorMessage from "./error";
 
 
 function desc(a, b, orderBy) {
@@ -205,6 +206,9 @@ class DeviceTable extends React.Component {
         ids: this.props.players.map(this.createData),
         page: 0,
         rowsPerPage: 5,
+        'errorMessage1': false,
+        'errorMessage2': false,
+        'errorMessage3': false,
     };
 
     devicesWanted = () => {
@@ -214,13 +218,32 @@ class DeviceTable extends React.Component {
         axios.post('http://vcm-7335.vm.duke.edu:5005/api/send_data',
             {"Players":Players, "Mount_Points":Mount_Points})
             .then(res => {
-                console.log(res);
-                console.log(res.data);
+
+                if (res.status === 205) {
+                    console.log("problem with local server")
+                    this.setState({'errorMessage1': true})
+                }
+                else if (res.status === 210) {
+                    console.log("problem with remote server")
+                    this.setState({'errorMessage2': true})
+                }
+                else {
+                    this.props.verificationData(res);
+                    this.props.view()
+                }
+
             })
-};
+            .catch( (error) => {
+                console.log("unknown error")
+                this.setState({'errorMessage3': true })
+            })
+
+    };
 
 
+//PROBLEM WITH COUNTER
     createData(name, id) {
+        // this.state.counter += 1;
         return {id: id, name: name};
     }
 
@@ -281,7 +304,6 @@ class DeviceTable extends React.Component {
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, ids.length - page * rowsPerPage);
 
         console.log(this.state.ids);
-
         return (
             <Paper className={classes.root}>
                 <DeviceTableToolbar numSelected={selected.length} downloadClick={this.devicesWanted}/>
@@ -342,6 +364,24 @@ class DeviceTable extends React.Component {
                     onChangePage={this.handleChangePage}
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 />
+                <ErrorMessage
+                    open={this.state.errorMessage1}
+                    title={"An error occurred while accessing the local server"}
+                    content={"Please refer to the server log at Main_Log.txt"}
+                    close={() => this.setState({errorMessage1: false})}
+                />
+                <ErrorMessage style={styles.errorMessageStyle}
+                              open={this.state.errorMessage2}
+                              title={"An error occurred while accessing the remote server and/or database"}
+                              content={"Please refer to the server log at database_server_log.txt"}
+                              close={() => this.setState({errorMessage2: false})}
+                />
+                <ErrorMessage style={styles.errorMessageStyle}
+                              open={this.state.errorMessage3}
+                              title={"Unknown Error"}
+                              content={"Please check all server and device connections"}
+                              close={() => this.setState({errorMessage3: false})}
+                />
             </Paper>
         );
     }
@@ -352,4 +392,4 @@ DeviceTable.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(DeviceTable);
+export default withStyles(styles)(DeviceTable)

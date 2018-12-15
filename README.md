@@ -55,7 +55,7 @@ This server has two routes `GET /api/send_device_info` and `POST /api/send_data`
 
 ##### `GET /api/send_device_info`
   * Route gathers information from devices connected to the database.
-  * The route has the mounting point for macs hard coded into it. This can be found commented out in line 202 of React_Talk_Server.py. For macs the correct mounting point is at `/Volumes/`. None of us own macs so the code should be changed for PCs and Linux machines based on the mounting points for those machines. Devices should be found in a more streamlined way in future releases of this software, but we were not able to find a suitable way to do so by this deadline. 
+  * The route has the mounting point for macs hard coded into it. This can be found commented out in line 202 of React_Talk_Server.py. For macs the correct mounting point is at `/Volumes/`. None of us own PCs so the code should be changed for PCs and Linux machines based on the mounting points for those machines. Devices should be found in a more streamlined way in future releases of this software, but we were not able to find a suitable way to do so by this deadline. 
   * The `/Test/` folder in this repo contains test data from both of the DASHRS. The current version of the React_Talk_Server.py code accesses this folder in order to work correctly. 
   * The route outputs device information in the following format:
   ```sh
@@ -66,7 +66,7 @@ This server has two routes `GET /api/send_device_info` and `POST /api/send_data`
     }
    ```
   * If no devices can be accessed the server will return a response of 250 with a message in the following format. The front end will handle this accordinly
-  `{"message": "No devices were found"})`
+  `{"message": "No devices were found"}`
   
 ##### `POST /api/send_data`
   * Route downloads data from devices based on the response of the client. It expects the following input:

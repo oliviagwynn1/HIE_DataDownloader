@@ -149,7 +149,7 @@ let DeviceTableToolbar = props => {
                     </Typography>
                 ) : (
                     <Typography variant="h5" id="tableTitle">
-                        List of Connected Devices: Select to Upload
+                        List of Connected Devices: select devices to upload, then press "upload" icon
                     </Typography>
                 )}
             </div>

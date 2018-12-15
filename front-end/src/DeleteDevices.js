@@ -155,8 +155,9 @@ let DeviceTableToolbar = props => {
                     </Typography>
                 ) : (
                     <Typography variant="h6" id="tableTitle">
-                        Data Uploaded to Server: Select to Delete from Device
+                        Data Uploaded to Server: select devices, then press "delete" icon to delete from device
                     </Typography>
+
                 )}
             </div>
             <div className={classes.spacer} />
@@ -359,7 +360,7 @@ class DeviceTable extends React.Component {
                     open={this.state.message}
                     title={"Automatic deletion feature has not been implemented yet"}
                     content={"Please delete data manually"}
-                    close={() => this.setState({errorMessage3: false})}
+                    close={() => this.setState({message: false})}
                 />
             </Paper>
         );

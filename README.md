@@ -31,8 +31,6 @@ Software toolkit (GUI) [Python] to facilitate all aspects of downloading, loggin
 
 ## Visuals 
 
-<img width="680" alt="screen shot 2018-12-14 at 11 10 17 pm" src="https://user-images.githubusercontent.com/37776293/50038941-8816ca00-fff7-11e8-8f15-110aca6153c9.png">
-
 ## Code and Functional Description of Current State 
 ### Overview 
 
@@ -54,7 +52,6 @@ The DASHR data download interface is run using React which encompasses a JavaScr
   This will create and initialize a react application in a new folder called `react-learning` in your current working directory. 
   
 ##### Clone react project
-
 * `git clone git@github.com:oliviagwynn1/bme590final.git`
   
 ##### Install Dependencies after Cloning
@@ -68,6 +65,15 @@ When in the root of the project, simply run `npm run start` which will compile y
 
 
 #### Description and Use
+Once the application is open in the browser, the devices connect to the local computer can be seen after pressing the 'Connect to Devices' button on the home page. 
+
+Once clicked, the application will transition to the next page. The page will list all the devices in a table, along with checkboxes. Devices can be installed by clicking on the checkbox corresponding to your desired device, and then pressing the 'Download' button on the right of the table head.
+
+After the 'Download' botton has been pressed, the application will transition to the third and final view. This next view will include a table listing the devices chosen to download. The table also includes a verification icon associated with each device, to allow the user to know if the data has been downloaded successfully, or not. Once downloaded, the data on the devices can be deleted by clicking on the corresponding checkbox, and then pressing the 'Delete' icon on the top right of the table head. 
+
+Currently, the automated deletion is not implemented on our device. However, you can delete this data manually. 
+
+At all times in the application the user can return to the home page with the 'Connect to Devices' button, by pressing the 'Home Page' button on the top left of the screen. 
 
 
 ### Back-end: 

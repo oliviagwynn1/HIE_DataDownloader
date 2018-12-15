@@ -30,6 +30,17 @@ Software toolkit (GUI) [Python] to facilitate all aspects of downloading, loggin
 *Flexibility to interface with a database (i.e. SQL) and NTFS file system. All data is associated with a unique PIN and these data include the HIE sensor data that is the focus of the current document but also includes additional assessment and background data. 
 
 ## Visuals 
+### Screenshots of Views
+
+<img width="549" alt="screen shot 2018-12-14 at 11 44 32 pm" src="https://user-images.githubusercontent.com/37776293/50039100-49ceda00-fffa-11e8-8e11-b46db336bba1.png">
+
+<img width="552" alt="screen shot 2018-12-14 at 11 41 53 pm" src="https://user-images.githubusercontent.com/37776293/50039075-ee045100-fff9-11e8-8c55-5b995068f3c1.png">
+
+<img width="547" alt="screen shot 2018-12-14 at 11 42 03 pm" src="https://user-images.githubusercontent.com/37776293/50039077-f492c880-fff9-11e8-848f-39bcd5370bc9.png">
+
+### Link to video of front_end usage
+https://drive.google.com/file/d/14OZY7zVtw7ybFzNVPS9zEU43YINjCmto/view
+
 
 ## Code and Functional Description of Current State 
 ### Overview 

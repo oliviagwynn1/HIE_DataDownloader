@@ -46,7 +46,6 @@ The server must be run on the the same machine that the DASHR hub is connected. 
 * `git clone git@github.com:oliviagwynn1/bme590final.git`
 * `cd bme590final/`
 * `python3.7 -m venv .venv`
-* `python3.7 -m venv .venv`
 * `source .venv/bin/activate`
 * `pip install -r requirements.txt`
 * `python React_Talk_Server.py`
@@ -209,7 +208,7 @@ Please feel free to contact any of the team members with questions or issues.
 
 Nikki (nkm12@duke.edu, 6307449693)
 
-Clark Bulleit ()
+Clark Bulleit (cb329@duke.edu)
 
 Rebecca Cohen
 

@@ -237,13 +237,10 @@ class DeviceTable extends React.Component {
                 console.log("unknown error")
                 this.setState({'errorMessage3': true })
             })
+};
 
-    };
 
-
-//PROBLEM WITH COUNTER
     createData(name, id) {
-        // this.state.counter += 1;
         return {id: id, name: name};
     }
 
@@ -371,16 +368,16 @@ class DeviceTable extends React.Component {
                     close={() => this.setState({errorMessage1: false})}
                 />
                 <ErrorMessage style={styles.errorMessageStyle}
-                              open={this.state.errorMessage2}
-                              title={"An error occurred while accessing the remote server and/or database"}
-                              content={"Please refer to the server log at database_server_log.txt"}
-                              close={() => this.setState({errorMessage2: false})}
+                    open={this.state.errorMessage2}
+                    title={"An error occurred while accessing the remote server and/or database"}
+                    content={"Please refer to the server log at database_server_log.txt"}
+                    close={() => this.setState({errorMessage2: false})}
                 />
-                <ErrorMessage style={styles.errorMessageStyle}
-                              open={this.state.errorMessage3}
-                              title={"Unknown Error"}
-                              content={"Please check all server and device connections"}
-                              close={() => this.setState({errorMessage3: false})}
+                 <ErrorMessage style={styles.errorMessageStyle}
+                    open={this.state.errorMessage3}
+                    title={"Unknown Error"}
+                    content={"Please check all server and device connections"}
+                    close={() => this.setState({errorMessage3: false})}
                 />
             </Paper>
         );

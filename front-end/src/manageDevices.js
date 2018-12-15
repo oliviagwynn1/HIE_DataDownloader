@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import { styles } from './styling'
+import { styles } from './styling';
 
-class Devices extends Component {
+class ManageDevices extends Component {
 
     render(){
         console.log(this.props.data)
         console.log(this.props.players)
         return(
-            <div style={styles.viewStyle}>
+            <div>
+                <div style={styles.viewStyle}>
+
                 this is where Olivia's table will go! wooooo
 
+                </div>
             </div>
         )
     }
@@ -18,4 +21,4 @@ class Devices extends Component {
 }
 
 
-export default Devices
+export default ManageDevices

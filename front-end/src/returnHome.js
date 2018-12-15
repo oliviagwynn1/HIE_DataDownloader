@@ -3,11 +3,12 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/ArrowBackRounded';
 import { styles } from './styling';
 
+
 class ReturnToHome extends Component {
 
     handleClick = () => {
         this.props.returnHome()
-    }
+        }
 
 
     render(){

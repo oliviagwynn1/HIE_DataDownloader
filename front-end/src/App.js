@@ -63,6 +63,7 @@ class App extends Component {
                 verificationData={this.verificationData}
                 view = {this.changeToVerView}/>)
         } else {
+
             return(<DeleteDevices
                 verData={this.state.verData}/>)
         }
@@ -78,13 +79,11 @@ class App extends Component {
                     <div style={styles.headerStyle}>
                         Welcome to the client application for the DASHR
                     </div>
-
                     {
                         (this.state.homeView===false)
                             ? <ReturnToHome returnHome = {this.returnHomeView}/>
                             : <div/>
                     }
-
                     <div style={styles.viewStyle}>
                         <Paper style={styles.paperStyle}>
                             {this.views()}

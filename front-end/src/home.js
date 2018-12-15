@@ -28,15 +28,15 @@ class Home extends Component {
                 this.setState({'errorMessage2': true })
             }
             else {
-                this.props.data(response);
-                this.props.view()
+               this.props.data(response);
+               this.props.view()
             }
         })
-            .catch( (error) => {
-                console.log("Unknown error")
-                this.setState({'errorMessage3': true })
-            })
-    }
+        .catch( (error) => {
+            console.log("Unknown error")
+            this.setState({'errorMessage3': true })
+        })
+        }
 
 
     render(){
@@ -57,16 +57,16 @@ class Home extends Component {
                     close={() => this.setState({errorMessage1: false})}
                 />
                 <ErrorMessage style={styles.errorMessageStyle}
-                              open={this.state.errorMessage2}
-                              title={"No devices were found"}
-                              content={"Please check connections and try again"}
-                              close={() => this.setState({errorMessage2: false})}
+                    open={this.state.errorMessage2}
+                    title={"No devices were found"}
+                    content={"Please check connections and try again"}
+                    close={() => this.setState({errorMessage2: false})}
                 />
-                <ErrorMessage style={styles.errorMessageStyle}
-                              open={this.state.errorMessage3}
-                              title={"Unknown Error"}
-                              content={"Please check all server and device connections"}
-                              close={() => this.setState({errorMessage3: false})}
+                 <ErrorMessage style={styles.errorMessageStyle}
+                    open={this.state.errorMessage3}
+                    title={"Unknown Error"}
+                    content={"Please check all server and device connections"}
+                    close={() => this.setState({errorMessage3: false})}
                 />
             </div>
         )

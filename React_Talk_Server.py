@@ -67,6 +67,15 @@ def send_data():
             server and saved in the database
     """
 
+    # Test connection to remote server and database
+    try:
+        r = requests.post(
+            'http://vcm-7653.vm.duke.edu:5000/api/luck/add_data',
+            json={'Test':'Hi'})
+    except requests.exceptions.ConnectionError:
+        logging.warning(error_messages[3])
+        return jsonify(error_messages[3]), 210
+
     # Set up responses dictionary
     responses = {}
 
@@ -152,7 +161,9 @@ def send_data():
             output_dictionary['session_data'][mod_date][
                 os.path.basename(name).replace(
                     ".BIN", "")] = file_dict
+
         # Post a dictionary for each Serial number to the server
+        # Except connection error if the server goes down mid-run
         try:
             r = requests.post(
                 'http://vcm-7653.vm.duke.edu:5000/api/luck/add_data',

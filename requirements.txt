@@ -21,3 +21,4 @@ gunicorn
 parse
 flask
 pymodm
+flask-mongoengine

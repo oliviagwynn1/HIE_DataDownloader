@@ -69,9 +69,9 @@ def send_data():
 
     # Test connection to remote server and database
     try:
-        r = requests.post(
+        test = requests.post(
             'http://vcm-7653.vm.duke.edu:5000/api/luck/add_data',
-            json={'Test':'Hi'})
+            json={'Test': 'Hi'})
     except requests.exceptions.ConnectionError:
         logging.warning(error_messages[3])
         return jsonify(error_messages[3]), 210

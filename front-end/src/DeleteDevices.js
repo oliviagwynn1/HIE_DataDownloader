@@ -24,6 +24,7 @@ import grey from '@material-ui/core/colors/grey';
 import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ErrorIcon from '@material-ui/icons/Error';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ErrorMessage from "./error";
 
 
 function desc(a, b, orderBy) {
@@ -119,12 +120,12 @@ const toolbarStyles = theme => ({
     highlight:
         theme.palette.type === 'light'
             ? {
-                color: theme.palette.secondary.main,
-                backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+                color: theme.palette.primary.main,
+                backgroundColor: lighten(theme.palette.primary.light, 0.85),
             }
             : {
-                color: theme.palette.text.primary,
-                backgroundColor: theme.palette.secondary.dark,
+                color: theme.palette.text.secondary,
+                backgroundColor: theme.palette.primary.dark,
             },
     spacer: {
         flex: '1 1 100%',
@@ -154,8 +155,9 @@ let DeviceTableToolbar = props => {
                     </Typography>
                 ) : (
                     <Typography variant="h6" id="tableTitle">
-                        Data Verified: Chose devices to delete
+                        Data Uploaded to Server: select devices, then press "delete" icon to delete from device
                     </Typography>
+
                 )}
             </div>
             <div className={classes.spacer} />
@@ -211,7 +213,12 @@ class DeviceTable extends React.Component {
         ver: this.createData(this.props.verData),
         page: 0,
         rowsPerPage: 5,
+        'message': false
     };
+
+    devicesDeleted = () => {
+        this.setState({'message': true})
+    }
 
     createData(ver_data) {
         return Object.entries(ver_data).map(e => ({id: e[0], ver: e[1]}));
@@ -348,6 +355,12 @@ class DeviceTable extends React.Component {
                     }}
                     onChangePage={this.handleChangePage}
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                />
+                <ErrorMessage style={styles.errorMessageStyle}
+                    open={this.state.message}
+                    title={"Automatic deletion feature has not been implemented yet"}
+                    content={"Please delete data manually"}
+                    close={() => this.setState({message: false})}
                 />
             </Paper>
         );

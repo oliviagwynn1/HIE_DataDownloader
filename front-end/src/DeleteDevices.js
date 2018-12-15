@@ -18,7 +18,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import axios from 'axios';
 import green from '@material-ui/core/colors/green';
 import red from '@material-ui/core/colors/red';
 import grey from '@material-ui/core/colors/grey';
@@ -219,20 +218,6 @@ class DeviceTable extends React.Component {
     }
 
 
-
-    devicesDeleted = () => {
-        let Players = this.state.selected.map(i => this.props.players[i]);
-        let Mount_Points = this.state.selected.map(i => this.props.mountPoints[i]);
-
-        axios.post('http://vcm-7335.vm.duke.edu:5005/api/send_data',
-            {"Players":Players, "Mount_Points":Mount_Points})
-            .then(res => {
-                console.log(res);
-                console.log(res.data);
-            })
-    };
-
-
     handleRequestSort = (event, property) => {
         const orderBy = property;
         let order = 'desc';
@@ -283,32 +268,12 @@ class DeviceTable extends React.Component {
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
-    // handleToggle = value => () => {
-    //     const { checked } = this.state;
-    //     const currentIndex = checked.indexOf(value);
-    //     const newChecked = [...checked];
-    //
-    //     if (currentIndex === -1) {
-    //         newChecked.push(value);
-    //     } else {
-    //         newChecked.splice(currentIndex, 1);
-    //     }
-    //
-    //     this.setState({
-    //         checked: newChecked,
-    //     });
-    // };
-
 
     render() {
         const { classes } = this.props;
         const { ver, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, ver.length - page * rowsPerPage);
 
-        // const { classes } = this.props;
-        // var good_feedback_Keys = Object.keys(this.state.feedback).filter(k => this.state.feedback[k]);
-        // var bad_feedback_Keys = Object.keys(this.state.feedback).filter(k => !this.state.feedback[k]);
-        //
         const theme = createMuiTheme({
             palette: {
                 primary: green,

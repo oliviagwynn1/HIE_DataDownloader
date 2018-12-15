@@ -85,9 +85,8 @@ class App extends Component {
                             : <div/>
                     }
                     <div style={styles.viewStyle}>
-                        <Paper style={styles.paperStyle}>
                             {this.views()}
-                        </Paper>
+
                     </div>
                 </div>
             </MuiThemeProvider>

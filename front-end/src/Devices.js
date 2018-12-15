@@ -114,12 +114,12 @@ const toolbarStyles = theme => ({
     highlight:
         theme.palette.type === 'light'
             ? {
-                color: theme.palette.secondary.main,
-                backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+                color: theme.palette.primary.main,
+                backgroundColor: lighten(theme.palette.primary.light, 0.85),
             }
             : {
-                color: theme.palette.text.primary,
-                backgroundColor: theme.palette.secondary.dark,
+                color: theme.palette.text.secondary,
+                backgroundColor: theme.palette.primary.dark,
             },
     spacer: {
         flex: '1 1 100%',
@@ -148,8 +148,8 @@ let DeviceTableToolbar = props => {
                         {numSelected} devices selected
                     </Typography>
                 ) : (
-                    <Typography variant="h6" id="tableTitle">
-                        Device List
+                    <Typography variant="h5" id="tableTitle">
+                        List of Connected Devices: Select to Upload
                     </Typography>
                 )}
             </div>

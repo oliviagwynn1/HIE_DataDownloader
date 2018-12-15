@@ -42,6 +42,10 @@ export var styles = {
     },
     "viewStyle": {
         "text-align": "center",
+        "marginTop": "5vh",
+        "marginLeft": "15vh",
+        "marginRight": "15vh",
+        "marginBottom": "5vh",
     },
     "connectButtonStyle": {
         "text-align": "center",

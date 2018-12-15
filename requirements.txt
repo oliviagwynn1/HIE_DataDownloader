@@ -19,3 +19,5 @@ checksumdir
 flask_cors
 gunicorn
 parse
+flask
+pymodm

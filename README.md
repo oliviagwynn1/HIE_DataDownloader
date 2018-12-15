@@ -31,6 +31,8 @@ Software toolkit (GUI) [Python] to facilitate all aspects of downloading, loggin
 
 ## Visuals 
 
+<img width="680" alt="screen shot 2018-12-14 at 11 10 17 pm" src="https://user-images.githubusercontent.com/37776293/50038941-8816ca00-fff7-11e8-8f15-110aca6153c9.png">
+
 ## Code and Functional Description of Current State 
 ### Overview 
 

@@ -39,8 +39,8 @@ This server has two routes `GET /api/send_device_info` and `POST /api/send_data`
     }
    ```
    * The route goes into the given mounting point for each of the Players, downloads the data and then posts the following dictionary to the remote server and database:
-    ```sh
-    {
+   ```sh
+   {
         '_id': '261758686', {
             'session_data': {
                 '2018-10-12': {

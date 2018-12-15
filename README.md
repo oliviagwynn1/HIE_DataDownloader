@@ -36,6 +36,35 @@ Software toolkit (GUI) [Python] to facilitate all aspects of downloading, loggin
 
 ### Front-end: 
 #### Installation
+The DASHR data download interface is run using React which encompasses a JavaScript libary that must be downloaded to the local computer. To accomplish this, the following steps can be taken:
+
+##### Install ReactJS
+
+* Install Node.JS (which comes with 'npm'--the node package manager): https://nodejs.org/en/
+* Install the 'create-react-app' scaffolding tool:
+  ```
+  npm install -g create-react-app
+  ```
+* Go ahead and create a sample project called `react-learning` using `create-react-app` as follows:
+  ```
+  create-react-app react-learning
+  ```
+  This will create and initialize a react application in a new folder called `react-learning` in your current working directory. 
+  
+##### Clone react project
+
+* `git clone git@github.com:oliviagwynn1/bme590final.git`
+  
+##### Install Dependencies after Cloning
+After cloning a new react project to your computer (say from a partner) that you haven't used before, you will have to install project dependencies (just like you did previously in a virtual environment). Run `npm install --save` from the root of the directory to install all project dependencies. After this is complete, you can run your project.
+
+##### Instal Back-end dependencies
+Follow commands below.
+
+##### Run a ReactJS Project
+When in the root of the project, simply run `npm run start` which will compile your application and open it in a browser.
+
+
 #### Description and Use
 
 
@@ -43,7 +72,6 @@ Software toolkit (GUI) [Python] to facilitate all aspects of downloading, loggin
 #### Installation
 The server must be run on the the same machine that the DASHR hub is connected. This can be accomplished by with the following commands:
 
-* `git clone git@github.com:oliviagwynn1/bme590final.git`
 * `cd bme590final/`
 * `python3.7 -m venv .venv`
 * `source .venv/bin/activate`
@@ -212,4 +240,4 @@ Clark Bulleit (cb329@duke.edu)
 
 Rebecca Cohen
 
-Olivia Gwynn 
+Olivia Gwynn (og29@duke.edu)

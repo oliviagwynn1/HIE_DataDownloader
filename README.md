@@ -35,12 +35,12 @@ Software toolkit (GUI) [Python] to facilitate all aspects of downloading, loggin
 ### Overview 
 
 ### Front-end: 
-####Installation
+#### Installation
 #### Description and Use
 
 
 ### Back-end: 
-####Installation
+#### Installation
 The server must be run on the the same machine that the DASHR hub is connected. This can be accomplished by with the following commands:
 
 * `git clone git@github.com:oliviagwynn1/bme590final.git`

@@ -1,7 +1,7 @@
 # BME590final
 
 ## Description 
-This project was completed as a final project for the course BME590 MEedical Software Design. 
+This project was completed as a final project for the course BME590 Medical Software Design. 
 The project was completed Dr. Jason Luck, a professor of Biomechanics at Duke University. 
 
 Client: Jason Luck, PhD (Injury Biomechanics Laboratory)
